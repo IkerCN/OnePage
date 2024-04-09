@@ -12,7 +12,7 @@ use App\Http\Resources\ProductoResource;
 class ProductoController extends Controller
 {
     public function index(){
-        $productos = Producto::with('media') //con esta funcion podemos guardar todas las tareas de la base de datos en un array
+        $productos = Producto::with('media'); //con esta funcion podemos guardar todas las tareas de la base de datos en un array
 
         return $productos;
     }
