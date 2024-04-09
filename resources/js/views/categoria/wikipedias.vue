@@ -31,7 +31,7 @@ const route = useRoute();
 const wikipedias = ref();
 
 onMounted(() => {
-    axios.get('/api/get-categoria-posts/' + route.params.id).then(({data}) => {
+    axios.get('/api/get-categoria-wiki/' + route.params.id).then(({data}) => {
         wikipedias.value = data;
     })
 })

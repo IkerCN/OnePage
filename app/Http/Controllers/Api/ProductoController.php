@@ -12,7 +12,7 @@ use App\Http\Resources\ProductoResource;
 class ProductoController extends Controller
 {
     public function index(){
-        $productos = Producto::all(); //con esta funcion podemos guardar todas las tareas de la base de datos en un array
+        $productos = Producto::with('media') //con esta funcion podemos guardar todas las tareas de la base de datos en un array
 
         return $productos;
     }
@@ -26,9 +26,14 @@ class ProductoController extends Controller
             'categoria_id' => 'required'
         ]);
         $producto = $request->all();
-        $tarea = Producto::create($producto);
+        $productos = Producto::create($producto);
 
-        return response()->json(['success' => true, 'data' => $producto]);
+        if ($request->hasFile('thumbnail')) {
+            $post->addMediaFromRequest('thumbnail')->preservingOriginal()->toMediaCollection('productoImg');
+        }
+
+        return new ProductoResource($productos);//Crear ProductoResource
+        //return response()->json(['success' => true, 'data' => $producto]);
     }
     public function destroy($id, Request $request)
     {

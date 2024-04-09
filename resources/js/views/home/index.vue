@@ -38,7 +38,7 @@
                             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" class="bg-primary" aria-label="Slide 3"></button>
                         </div>
                         <div class="carousel-inner">
-                            <div v-for="post in posts?.data" :key="post.id" class="carousel-item active">
+                            <div v-for="(post, index) in posts?.data" :key="post.id" :class="{ 'carousel-item': true, 'active': index === 0 }">
                                 <div class="card text-center">
                                     <div class="card-header color-fondo-blanco">
                                         <h4>{{ post.title }}</h4>

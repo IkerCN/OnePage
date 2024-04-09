@@ -22,7 +22,7 @@ const model = ref([
         label: 'Tienda',
         items: [
             //label: es el texto  icn: el icono que esta al lado    to: hacia donde va  permision: son los tipos de usuarios que pueden ver eso
-            { label: 'Productos', icon: 'pi pi-fw pi-shopping-bag', to: '/admin', permision: 'all'},
+            { label: 'Productos', icon: 'pi pi-fw pi-shopping-bag', to: '/admin/producto', permision: 'all'},
             { label: 'Carrito', icon: 'pi pi-fw pi-shopping-cart', to: '/admin/tasks', permision: 'all'}
         ]
     },
@@ -35,14 +35,14 @@ const model = ref([
     {
         label: 'Multimedia',
         items: [
-            { label: 'Series', icon: 'pi pi-fw pi-play', to: '/admin/categories', permision: 'all' },
+            { label: 'Series', icon: 'pi pi-fw pi-play', to: '/admin/capitulo', permision: 'all' },
             { label: 'Mangas', icon: 'pi pi-fw pi-book', to: '/admin/categories', permision: 'all' }
         ]
     },
     {
         label: 'Blog',
         items: [
-            { label: 'Todas las entradas', icon: 'pi pi-fw pi-pencil', to: '/posts', permision: 'all' }
+            { label: 'Todas las entradas', icon: 'pi pi-fw pi-pencil', to: 'admin/posts', permision: 'all' }
         ]
     }
 ]);

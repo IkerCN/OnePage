@@ -41,8 +41,10 @@ class PermissionTableSeeder extends Seeder
             'category-list',
             'category-create',
             'category-edit',
-            'category-delete'
-        ];
+            'category-delete',
+            'capitulo-edit',
+            'capitulo-delete'
+            ];
 
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);

@@ -19,7 +19,13 @@ const wikipediasList  = ()  => import('../views/admin/wikipedias/index.vue');
 const wikipediasCreate  = ()  => import('../views/admin/wikipedias/create.vue');
 const wikipediasUpdate  = ()  => import('../views/admin/wikipedias/update.vue');
 
-const Productos  = ()  => import('../views/admin/tienda/Index.vue');
+const Productos  = ()  => import('../views/admin/productos/Index.vue');
+const productoCreate  = ()  => import('../views/admin/productos/create.vue');
+const productoUpdate  = ()  => import('../views/admin/productos/update.vue');
+
+const Capitulos  = ()  => import('../views/admin/capitulos/Index.vue');
+const capituloCreate  = ()  => import('../views/admin/capitulos/Create.vue');
+const capituloEdit  = ()  => import('../views/admin/capitulos/Edit.vue');
 
 function requireLogin(to, from, next) {
     let isLogin = false;
@@ -66,9 +72,9 @@ export default [
                 component: () => import('../views/posts/details.vue'),
             },
             {
-                path: 'category/:id',
-                name: 'category-posts.index',
-                component: () => import('../views/category/posts.vue'),
+                path: 'catiagory/:id',
+                name: 'categoria-posts.index',
+                component: () => import('../views/categoria/posts.vue'),
             },
             {
                 path: 'wikipedia',
@@ -82,7 +88,7 @@ export default [
             },
             {
                 path: 'categoria/:id',
-                name: 'categoria-posts.index',
+                name: 'categoria-wiki.index',
                 component: () => import('../views/categoria/wikipedias.vue'),
             },
             {
@@ -175,6 +181,42 @@ export default [
                         path: '',
                         component: Productos,
                         meta: { breadCrumb: 'Productos' }
+                    },
+                    {
+                        name: 'productos.create',
+                        path: 'create',
+                        component: productoCreate,
+                        meta: { breadCrumb: 'Crear tareas' }
+                    },{
+                        name: 'productos.update',
+                        path: 'update/:id',
+                        component: productoUpdate,
+                        meta: { breadCrumb: 'Actualizar tareas',linked: false }, // Linked false es para deshabilitar la ruta de seguimiento en el encabezado
+
+                    }
+                ]
+            },
+            {
+                name: 'capitulo',
+                path: 'capitulo',
+                meta: { breadCrumb: 'capitulo'},
+                children: [
+                    {
+                        name: 'capitulo.index',
+                        path: '',
+                        component: Capitulos,
+                        meta: { breadCrumb: 'capitulos' }
+                    },
+                    {
+                        name: 'capitulos.create',
+                        path: 'create',
+                        component: capituloCreate,
+                        meta: { breadCrumb: 'Crear tareas' }
+                    },{
+                        name: 'capitulos.edit',
+                        path: 'update/:id',
+                        component: capituloEdit,
+                        meta: { breadCrumb: 'Actualizar tareas',linked: false }, // Linked false es para deshabilitar la ruta de seguimiento en el encabezado
                     }
                 ]
             },

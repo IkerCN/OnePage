@@ -11,7 +11,7 @@ class Noticia extends Model
     protected $fillable = [
         "titular",
         "contenido",
-        "idUsuario"
+        "usuario_id"
     ];
     public function users()
     {

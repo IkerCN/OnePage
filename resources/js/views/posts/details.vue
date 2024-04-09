@@ -30,9 +30,9 @@
 
                     <div class="p-4">
                         <h4 class="fst-italic">Categorias</h4>
-                        <ol v-if="categories?.length > 0" class="list-unstyled">
-                            <li v-for="category in categories" :key="category.id">
-                                <router-link :to="{ name: 'category-posts.index', params: { id: category.id } }">{{ category.name }}</router-link>
+                        <ol v-if="categorias?.length > 0" class="list-unstyled">
+                            <li v-for="categoria in categorias" :key="categoria.id">
+                                <router-link :to="{ name: 'categoria-posts.index', params: { id: categoria.id } }">{{ categoria.nombre }}</router-link>
                             </li>
                         </ol>
                     </div>
@@ -66,15 +66,15 @@ import { useRoute } from "vue-router";
 
 
     const post = ref();
-    const categories = ref();
+    const categorias = ref();
     const route = useRoute()
 
     onMounted(() => {
         axios.get('/api/get-post/' + route.params.id).then(({ data }) => {
             post.value = data
         })
-        axios.get('/api/category-list').then(({ data }) => {
-            categories.value = data.data
+        axios.get('/api/categoria-list').then(({ data }) => {
+            categorias.value = data.data
         })
     })
 </script>

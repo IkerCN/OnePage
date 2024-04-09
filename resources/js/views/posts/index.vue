@@ -9,11 +9,11 @@
                         <img :src="getImageUrl(post)" class="img-fluid"/>
                     </div>
                     <div class="col p-4 d-flex flex-column position-static">
-                        <strong v-for="category in post.categories" class="d-inline-block mb-2 text-primary">
-                            {{ category.name }}
+                        <strong v-for="categoria in post.categorias" class="d-inline-block mb-2 text-primary">
+                            {{ categoria.nombre }}
                         </strong>
                         <h3 class="mb-0">{{ post.title }}</h3>
-                        <div class="mb-1 text-muted">12 de Enero</div>
+                        <div class="mb-1 text-muted">{{ post.created_at }}</div>
                         <div class="card-text mb-auto" v-html="post.content.substring(0, 150) + '...'"></div>
                         <router-link :to="{ name: 'public-posts.details', params: { id: post.id } }" class="stretched-link">Continual leyendo
                         </router-link>

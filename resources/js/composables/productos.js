@@ -1,20 +1,19 @@
 import { ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
 
-export default function usePosts() {
-    const posts = ref({})
-    const post = ref({
+export default function useProductos() {
+    const productos = ref({})
+    const producto = ref({
         title: '',
         content: '',
-        categoria_id: '',
-        thumbnail: ''
+        categoria_id: ''
     })
     const router = useRouter()
     const validationErrors = ref({})
     const isLoading = ref(false)
     const swal = inject('$swal')
 
-    const getPosts = async (
+    const getProductos = async (
         page = 1,
         search_categoria = '',
         search_id = '',
@@ -24,7 +23,7 @@ export default function usePosts() {
         order_column = 'created_at',
         order_direction = 'desc'
     ) => {
-        axios.get('/api/posts?page=' + page +
+        axios.get('/api/productos?page=' + page +
             '&search_categoria=' + search_categoria +
             '&search_id=' + search_id +
             '&search_title=' + search_title +
@@ -33,41 +32,40 @@ export default function usePosts() {
             '&order_column=' + order_column +
             '&order_direction=' + order_direction)
             .then(response => {
-                console.log(response.data);
-                posts.value = response.data;
+                productos.value = response.data;
             })
     }
 
-    const getPost = async (id) => {
-        axios.get('/api/posts/' + id)
+    const getProducto = async (id) => {
+        axios.get('/api/productos/' + id)
             .then(response => {
-                post.value = response.data.data;
+                producto.value = response.data.data;
             })
     }
 
-    const storePost = async (post) => {
+    const storeProducto = async (producto) => {
         if (isLoading.value) return;
 
         isLoading.value = true
         validationErrors.value = {}
 
-        let serializedPost = new FormData()
-        for (let item in post) {
-            if (post.hasOwnProperty(item)) {
-                serializedPost.append(item, post[item])
+        let serializedProducto = new FormData()
+        for (let item in producto) {
+            if (producto.hasOwnProperty(item)) {
+                serializedProducto.append(item, producto[item])
             }
         }
 
-        axios.post('/api/posts', serializedPost,{
+        axios.post('/api/productos', serializedProducto, {
             headers: {
                 "content-type": "multipart/form-data"
             }
         })
             .then(response => {
-                router.push({name: 'posts.index'})
+                router.push({ nombre: 'productos.index' })
                 swal({
                     icon: 'success',
-                    title: 'Post saved successfully'
+                    title: 'producto saved successfully'
                 })
             })
             .catch(error => {
@@ -78,29 +76,34 @@ export default function usePosts() {
             .finally(() => isLoading.value = false)
     }
 
-    const updatePost = async (post) => {
+    const updateProducto = async (producto) => {
         if (isLoading.value) return;
 
         isLoading.value = true
         validationErrors.value = {}
-        console.log(post);
-        axios.put('/api/posts/' + post.id, post)
-            .then(response => {
-                router.push({name: 'posts.index'})
-                swal({
-                    icon: 'success',
-                    title: 'Post updated successfully'
-                })
+
+        axios.post('/api/productos/update/' + producto.id, producto, {
+            headers: {
+                "content-type": "multipart/form-data"
+            }
+        })
+        .then(response => {
+            router.push({ nombre: 'productos.index' })
+            console.log(response);
+            swal({
+                icon: 'success',
+                title: 'producto updated successfully'
             })
-            .catch(error => {
-                if (error.response?.data) {
-                    validationErrors.value = error.response.data.errors
-                }
-            })
-            .finally(() => isLoading.value = false)
+        })
+        .catch(error => {
+            if (error.response?.data) {
+                validationErrors.value = error.response.data.errors
+            }
+        })
+        .finally(() => isLoading.value = false)
     }
 
-    const deletePost = async (id) => {
+    const deleteProducto = async (id) => {
         swal({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this action!',
@@ -114,13 +117,13 @@ export default function usePosts() {
         })
             .then(result => {
                 if (result.isConfirmed) {
-                    axios.delete('/api/posts/' + id)
+                    axios.delete('/api/productos/' + id)
                         .then(response => {
-                            getPosts()
-                            router.push({name: 'posts.index'})
+                            getProductos()
+                            router.push({ nombre: 'productos.index' })
                             swal({
                                 icon: 'success',
-                                title: 'Post deleted successfully'
+                                title: 'producto deleted successfully'
                             })
                         })
                         .catch(error => {
@@ -135,14 +138,15 @@ export default function usePosts() {
     }
 
     return {
-        posts,
-        post,
-        getPosts,
-        getPost,
-        storePost,
-        updatePost,
-        deletePost,
+        productos,
+        producto,
+        getProductos,
+        getProducto,
+        storeProducto,
+        updateProducto,
+        deleteProducto,
         validationErrors,
-        isLoading
+        isLoading,
+        router
     }
 }

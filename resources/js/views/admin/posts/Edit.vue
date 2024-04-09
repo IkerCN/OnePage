@@ -62,17 +62,17 @@
                         <h6 class="mt-3">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-                            </svg> Category
+                            </svg> Categoria
                         </h6>
-                        <!-- Category -->
+                        <!-- Categoria -->
                         <div class="mb-3">
-                            <v-select multiple v-model="post.categories" :options="categoryList"
-                                      :reduce="category => category.id" label="name" class="form-control" placeholder="Select category"/>
+                            <v-select multiple v-model="post.categorias" :options="categoriaList"
+                                      :reduce="categoria => categoria.id" label="nombre" class="form-control" placeholder="Select categoria"/>
                             <div class="text-danger mt-1">
-                                {{ errors.categories }}
+                                {{ errors.categorias }}
                             </div>
                             <div class="text-danger mt-1">
-                                <div v-for="message in validationErrors?.categories">
+                                <div v-for="message in validationErrors?.categorias">
                                     {{ message }}
                                 </div>
                             </div>
@@ -113,7 +113,7 @@
 <script setup>
     import { onMounted, reactive, watchEffect } from "vue";
     import { useRoute } from "vue-router";
-    import useCategories from "@/composables/categories";
+    import useCategorias from "@/composables/categorias";
     import usePosts from "@/composables/posts";
     import { useForm, useField, defineRule } from "vee-validate";
     import { required, min } from "@/validation/rules"
@@ -126,20 +126,20 @@
     const schema = {
         title: 'required|min:5',
         content: 'required|min:50',
-        categories: 'required'
+        categorias: 'required'
     }
     // Create a form context with the validation schema
     const { validate, errors, resetForm } = useForm({ validationSchema: schema })
     // Define actual fields for validation
     const { value: title } = useField('title', null, { initialValue: '' });
     const { value: content } = useField('content', null, { initialValue: '' });
-    const { value: categories } = useField('categories', null, { initialValue: '', label: 'category' });
-    const { categoryList, getCategoryList } = useCategories()
+    const { value: categorias } = useField('categorias', null, { initialValue: '', label: 'categoria' });
+    const { categoriaList, getCategoriaList } = useCategorias()
     const { post: postData, getPost, updatePost, validationErrors, isLoading } = usePosts()
     const post = reactive({
         title,
         content,
-        categories,
+        categorias,
         thumbnail: ''
     })
     const route = useRoute()
@@ -148,7 +148,7 @@
     }
     onMounted(() => {
         getPost(route.params.id)
-        getCategoryList()
+        getCategoriaList()
     })
     // https://vuejs.org/api/reactivity-core.html#watcheffect
     watchEffect(() => {
@@ -156,6 +156,6 @@
         post.title = postData.value.title
         post.content = postData.value.content
         post.thumbnail = postData.value.original_image
-        post.categories = postData.value.categories
+        post.categorias = postData.value.categorias
     })
 </script>

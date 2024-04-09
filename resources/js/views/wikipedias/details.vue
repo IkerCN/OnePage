@@ -13,7 +13,7 @@
                 </div>-->
                 <div class="row">
                     <div class="w-auto" v-for="categoria in wikipedia?.categorias" :key="categoria.id">
-                        <router-link :to="{ name: 'categoria-posts.index', params: { id: categoria.id } }">{{ categoria.nombre }}</router-link>
+                        <router-link :to="{ name: 'categoria-wiki.index', params: { id: categoria.id } }">{{ categoria.nombre }}</router-link>
                     </div>
                 </div>
                 <div class="mt-4" v-html="wikipedia?.contenido"></div>
@@ -37,7 +37,7 @@
                         <h4 class="fst-italic">Categorias</h4>
                         <ol v-if="categorias?.length > 0" class="list-unstyled">
                             <li v-for="categoria in categorias" :key="categoria.id">
-                                <router-link :to="{ name: 'categoria-posts.index', params: { id: categoria.id } }">{{ categoria.nombre }}</router-link>
+                                <router-link :to="{ name: 'categoria-wiki.index', params: { id: categoria.id } }">{{ categoria.nombre }}</router-link>
                             </li>
                         </ol>
                     </div>

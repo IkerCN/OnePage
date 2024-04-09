@@ -16,7 +16,6 @@ return new class extends Migration
             $table->integer('numero');
             $table->string('titulo');
             $table->longText("descripcion");
-            $table->string('url_video');
             $table->unsignedBigInteger("categoria_id")->unsigned();
             $table->foreign("categoria_id")->references("id")->on("categorias")->onDelete('cascade');
             $table->timestamps();

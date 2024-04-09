@@ -19,7 +19,7 @@ class PedidoController extends Controller
     {
 
         $request->validate([
-            'idUsuario' => 'required',
+            'usuario_id' => 'required',
             'precioFinal' => 'required'
         ]);
         $producto = $request->all();
@@ -41,7 +41,7 @@ class PedidoController extends Controller
 
         $producto = Pedido::find($id);
         $request->validate([
-            'idUsuario' => 'required',
+            'usuario_id' => 'required',
             'precioFinal' => 'required'
         ]);
 

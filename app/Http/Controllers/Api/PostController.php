@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Resources\PostResource;
-use App\Models\Category;
+use App\Models\Categoria;
 use App\Models\Post;
 
 class PostController extends Controller
@@ -21,10 +21,10 @@ class PostController extends Controller
             $orderDirection = 'desc';
         }
         $posts = Post::with('media')
-            ->whereHas('categories', function ($query) {
-                if (request('search_category')) {
-                    $categories = explode(",", request('search_category'));
-                    $query->whereIn('id', $categories);
+            ->whereHas('categorias', function ($query) {
+                if (request('search_categoria')) {
+                    $categorias = explode(",", request('search_categoria'));
+                    $query->whereIn('id', $categorias);
                 }
             })
             ->when(request('search_id'), function ($query) {
@@ -60,9 +60,9 @@ class PostController extends Controller
         $validatedData['user_id'] = auth()->id();
         $post = Post::create($validatedData);
 
-        $categories = explode(",", $request->categories);
-        $category = Category::findMany($categories);
-        $post->categories()->attach($category);
+        $categorias = explode(",", $request->categorias);
+        $categoria = Categoria::findMany($categorias);
+        $post->categorias()->attach($categoria);
 
         if ($request->hasFile('thumbnail')) {
             $post->addMediaFromRequest('thumbnail')->preservingOriginal()->toMediaCollection('images');
@@ -91,10 +91,10 @@ class PostController extends Controller
             return response()->json(['status' => 405, 'success' => false, 'message' => 'You can only edit your own posts']);
         } else {
             $post->update($request->validated());
-            //error_log(json_encode($request->categories));
+            //error_log(json_encode($request->categorias));
 
-            $category = Category::findMany($request->categories);
-            $post->categories()->sync($category);
+            $categoria = Categoria::findMany($request->categorias);
+            $post->categorias()->sync($categoria);
 
             return new PostResource($post);
         }
@@ -113,20 +113,20 @@ class PostController extends Controller
 
     public function getPosts()
     {
-        $posts = Post::with('categories')->with('media')->latest()->paginate();
+        $posts = Post::with('categorias')->with('media')->latest()->paginate();
         return PostResource::collection($posts);
 
     }
 
-    public function getCategoryByPosts($id)
+    public function getCategoriaByPosts($id)
     {
-        $posts = Post::whereRelation('categories', 'category_id', '=', $id)->paginate();
+        $posts = Post::whereRelation('categorias', 'categoria_id', '=', $id)->paginate();
 
         return PostResource::collection($posts);
     }
 
     public function getPost($id)
     {
-        return Post::with('categories', 'user', 'media')->findOrFail($id);
+        return Post::with('categorias', 'user', 'media')->findOrFail($id);
     }
 }

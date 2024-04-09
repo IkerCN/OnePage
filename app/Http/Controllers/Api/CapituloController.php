@@ -3,24 +3,120 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\capitulo;
+use App\Http\Requests\StoreCapituloRequest;
+use App\Http\Resources\CapituloResource;
+use App\Models\Categoria;
+use App\Models\Capitulo;
 
 class CapituloController extends Controller
 {
     public function index()
     {
-        return capitulo::all();
+        $orderColumn = request('order_column', 'created_at');
+        if (!in_array($orderColumn, ['id', 'titulo', 'created_at'])) {
+            $orderColumn = 'created_at';
+        }
+        $orderDirection = request('order_direction', 'desc');
+        if (!in_array($orderDirection, ['asc', 'desc'])) {
+            $orderDirection = 'desc';
+        }
+        $Capitulos = Capitulo::with('media')
+            ->whereHas('categorias', function ($query) {
+                if (request('search_categoria')) {
+                    $categorias = explode(",", request('search_categoria'));
+                    $query->whereIn('id', $categorias);
+                }
+            })
+            ->when(request('search_id'), function ($query) {
+                $query->where('id', request('search_id'));
+            })
+            ->when(request('search_titulo'), function ($query) {
+                $query->where('titulo', 'like', '%' . request('search_titulo') . '%');
+            })
+            ->when(request('search_descripcion'), function ($query) {
+                $query->where('descripcion', 'like', '%' . request('search_descripcion') . '%');
+            })
+            ->when(request('search_global'), function ($query) {
+                $query->where(function ($q) {
+                    $q->where('id', request('search_global'))
+                        ->orWhere('titulo', 'like', '%' . request('search_global') . '%')
+                        ->orWhere('descripcion', 'like', '%' . request('search_global') . '%');
+
+                });
+            })
+            ->orderBy($orderColumn, $orderDirection)
+            ->paginate(50);
+        return CapituloResource::collection($Capitulos);
     }
 
-    public function show($id)
+    public function store(StoreCapituloRequest $request)
     {
-        return capitulo::findOrFail($id);
+        $validatedData = $request->validated();
+        $Capitulo = Capitulo::create($validatedData);
+
+        if ($request->hasFile('thumbnail')) {
+            $Capitulo->addMediaFromRequest('thumbnail')->preservingOriginal()->toMediaCollection('videos');
+        }
+        return response()->json(['success' => true, 'data' => $Capitulo]);
+        //return new CapituloResource($Capitulo);
     }
+
+    public function show(Capitulo $Capitulo)
+    {
+        $this->authorize('capitulo-edit');
+        if ($Capitulo->user_id !== auth()->user()->id) {
+            return response()->json(['status' => 405, 'success' => false, 'message' => 'You can only edit your own Capitulos']);
+        } else {
+            return new CapituloResource($Capitulo);
+        }
+    }
+
+
+    //NO edita imagen
+    public function update(Capitulo $Capitulo, StoreCapituloRequest $request)
+    {
+        $this->authorize('capitulo-edit');
+        
+        if ($Capitulo->user_id !== auth()->id() ) {
+            return response()->json(['status' => 405, 'success' => false, 'message' => 'You can only edit your own Capitulos']);
+        } else {
+            $Capitulo->update($request->validated());
+            //error_log(json_encode($request->categorias));
+
+            $categoria = Categoria::findMany($request->categorias);
+            $Capitulo->categorias()->sync($categoria);
+
+            return new CapituloResource($Capitulo);
+        }
+    }
+
+    public function destroy(Capitulo $Capitulo)
+    {
+        $this->authorize('capitulo-delete');
+        if ($Capitulo->user_id !== auth()->id() && !auth()->user()->hasPermissionTo('Capitulo-all')) {
+            return response()->json(['status' => 405, 'success' => false, 'message' => 'You can only delete your own Capitulos']);
+        } else {
+            $Capitulo->delete();
+            return response()->nodescripcion();
+        }
+    }
+
+    public function getCapitulos()
+    {
+        $Capitulos = Capitulo::with('categorias')->with('media')->latest()->paginate();
+        return CapituloResource::collection($Capitulos);
+
+    }
+
     public function getCategoriaByCapitulo($id)
     {
-        $capitulos = capitulo::with('categorias')->where('categoria_id', $id)->paginate();
-        return $capitulos;
+        $Capitulos = Capitulo::whereRelation('categorias', 'categoria_id', '=', $id)->paginate();
+
+        return CapituloResource::collection($Capitulos);
+    }
+
+    public function getCapitulo($id)
+    {
+        return Capitulo::with('categorias', 'progresos', 'media')->findOrFail($id);
     }
 }

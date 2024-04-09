@@ -68,14 +68,18 @@ Route::get('categoria-list', [CategoriaController::class, 'getList']);
 
 //CATEGORIAS_WIKI
 Route::get('get-wikipedias', [WikipediaController::class, 'getWikipedias']);
-Route::get('get-categoria-posts/{id}', [WikipediaController::class, 'getCategoriaByWiki']);
+Route::get('get-categoria-wiki/{id}', [WikipediaController::class, 'getCategoriaByWiki']);
 Route::get('get-wikipedia/{id}', [WikipediaController::class, 'getWikipedia']);
 
 //CAPITULOS
 Route::get('/capitulos', [CapituloController::class, 'index']);
 Route::get('/capitulos/{id}', [CapituloController::class, 'show']);
+Route::apiResource('capitulos', CapituloController::class);
 
-Route::get('get-categoria-capitulos/{id}', [CapituloController::class, 'getCategoriaByCaptulo']);
+Route::get('get-categoria-capitulos/{id}', [CapituloController::class, 'getCategoriaByCapitulo']);
+
+Route::get('get-capitulos', [CapituloController::class, 'getCapitulos']);
+Route::get('get-capitulo/{id}', [CapituloController::class, 'getCapitulo']);
 
 //MANGAS
 Route::get('/mangas', [MangaController::class, 'index']);
@@ -120,5 +124,5 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 
 Route::get('category-list', [CategoryController::class, 'getList']);
 Route::get('get-posts', [PostController::class, 'getPosts']);
-Route::get('get-category-posts/{id}', [PostController::class, 'getCategoryByPosts']);
+Route::get('get-categoria-posts/{id}', [PostController::class, 'getCategoriaByPosts']);
 Route::get('get-post/{id}', [PostController::class, 'getPost']);

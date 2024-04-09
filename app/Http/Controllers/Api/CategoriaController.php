@@ -18,7 +18,7 @@ class CategoriaController extends Controller
         if (!in_array($orderDirection, ['asc', 'desc'])) {
             $orderDirection = 'desc';
         }
-        $categories = Category::
+        $categorias = categoria::
             when(request('search_id'), function ($query) {
                 $query->where('id', request('search_id'));
             })
@@ -34,7 +34,7 @@ class CategoriaController extends Controller
             })
             ->orderBy($orderColumn, $orderDirection)
             ->paginate(50);
-        return CategoryResource::collection($categories);
+        return CategoriaResource::collection($categorias);
     }
 
     //public function store(StoreCategoryRequest $request)

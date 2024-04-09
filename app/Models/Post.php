@@ -23,11 +23,11 @@ class Post extends Model implements HasMedia
     }
 
     /**
-     * Get the category that owns the post.
+     * Get the categoria that owns the post.
      */
-    public function categories()
+    public function categorias()
     {
-        return $this->belongsToMany(Category::class, 'category_post');
+        return $this->belongsToMany(Categoria::class, 'categoria_post');
     }
 
     public function registerMediaCollections(): void

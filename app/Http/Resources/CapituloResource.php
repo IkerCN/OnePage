@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Exception;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PostResource extends JsonResource
+class CapituloResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -23,11 +23,11 @@ class PostResource extends JsonResource
         }
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'categorias' => $this->categorias,
-            'content' => $this->content,
+            'titulo' => $this->titulo,
+            'descripcion' => $this->descripcion,
+            'descripcion' => $this->descripcion,
             'original_image' => count($this->getMedia('*')) > 0 ? $this->getMedia('*')[0]->getUrl() : null,
-            'resized_image' => $resized_image,
+
             'created_at' => $this->created_at->toDateString()
         ];
     }

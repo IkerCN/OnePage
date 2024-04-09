@@ -3,9 +3,9 @@
         <div class="col-md-12">
             <div class="card border-0">
                 <div class="card-header bg-transparent">
-                    <h5 class="float-start">Posts</h5>
-                    <router-link v-if="can('post-create')" :to="{ name: 'posts.create' }" class="btn btn-primary btn-sm float-end">
-                        Create Post
+                    <h5 class="float-start">Capitulos</h5>
+                    <router-link :to="{ name: 'capitulos.create' }" class="btn btn-primary btn-sm float-end">
+                        Create Capitulo
                     </router-link>
                 </div>
                 <div class="card-body shadow-sm">
@@ -23,18 +23,18 @@
                                            placeholder="Filter by ID">
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left">
-                                    <input v-model="search_title" type="text"
+                                    <input v-model="search_titulo" type="text"
                                            class="inline-block mt-1 form-control"
-                                           placeholder="Filter by Title">
+                                           placeholder="Filter by titulo">
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left">
                                     <v-select multiple v-model="search_categoria" :options="categoriaList"
                                               :reduce="categoria => categoria.id" label="nombre" class="form-control w-100"/>
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left">
-                                    <input v-model="search_content" type="text"
+                                    <input v-model="search_descripcion" type="text"
                                            class="inline-block mt-1 form-control"
-                                           placeholder="Filter by Content">
+                                           placeholder="Filter by descripcion">
                                 </th>
                                 <th class="px-6 py-3 text-start"></th>
                                 <th class="px-6 py-3 text-start"></th>
@@ -61,19 +61,19 @@
                                 </th>
                                 <th class="px-6 py-3 text-left">
                                     <div class="flex flex-row"
-                                         @click="updateOrdering('title')">
+                                         @click="updateOrdering('titulo')">
                                         <div class="font-medium text-uppercase"
-                                             :class="{ 'font-bold text-blue-600': orderColumn === 'title' }">
-                                            Title
+                                             :class="{ 'font-bold text-blue-600': orderColumn === 'titulo' }">
+                                            Titulo
                                         </div>
                                         <div class="select-none">
                                 <span :class="{
-                                  'text-blue-600': orderDirection === 'asc' && orderColumn === 'title',
-                                  'hidden': orderDirection !== '' && orderDirection !== 'asc' && orderColumn === 'title',
+                                  'text-blue-600': orderDirection === 'asc' && orderColumn === 'titulo',
+                                  'hidden': orderDirection !== '' && orderDirection !== 'asc' && orderColumn === 'titulo',
                                 }">&uarr;</span>
                                             <span :class="{
-                                  'text-blue-600': orderDirection === 'desc' && orderColumn === 'title',
-                                  'hidden': orderDirection !== '' && orderDirection !== 'desc' && orderColumn === 'title',
+                                  'text-blue-600': orderDirection === 'desc' && orderColumn === 'titulo',
+                                  'hidden': orderDirection !== '' && orderDirection !== 'desc' && orderColumn === 'titulo',
                                 }">&darr;</span>
                                         </div>
                                     </div>
@@ -89,7 +89,7 @@
                                     <span class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Categoria</span>
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left">
-                                    <span class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Content</span>
+                                    <span class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">descripcion</span>
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left">
                                     <div class="flex flex-row items-center justify-between cursor-pointer"
@@ -116,32 +116,32 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="post in posts.data" :key="post.id">
+                            <tr v-for="capitulo in capitulos.data" :key="capitulo.id">
                                 <td class="px-6 py-4 text-sm" width="20">
-                                    {{ post.id }}
+                                    {{ capitulo.id }}
                                 </td>
                                 <td class="px-6 py-4 text-sm">
-                                    {{ post.title }}
+                                    {{ capitulo.titulo }}
                                 </td>
                                 <td class="px-6 py-4 text-sm">
-                                    <img :src="post.original_image" alt="image" height="70">
+                                    <img :src="capitulo.original_image" alt="image" height="70">
                                 </td>
                                 <td class="px-6 py-4 text-sm">
-                                    <div v-for="categoria in post.categorias">
+                                    <div v-for="categoria in capitulo.categorias">
                                         {{ categoria.nombre }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 text-sm">
-                                    <div v-html="post.content.slice(0, 100) + '...'"></div>
+                                    <div v-html="capitulo.descripcion.slice(0, 100) + '...'"></div>
                                 </td>
                                 <td class="px-6 py-4 text-sm">
-                                    {{ post.created_at }}
+                                    {{ capitulo.created_at }}
                                 </td>
                                 <td class="px-6 py-4 text-sm">
-                                    <router-link v-if="can('post-edit')"
-                                                 :to="{ name: 'posts.edit', params: { id: post.id } }" class="badge bg-primary">Edit
+                                    <router-link :to="{ name: 'capitulos.edit', params: { id: capitulo.id } }" class="badge bg-primary">
+                                        Edit
                                     </router-link>
-                                    <a href="#" v-if="can('post-delete')" @click.prevent="deletePost(post.id)"
+                                    <a href="#" @click.prevent="deleteCapitulo(capitulo.id)"
                                        class="ms-2 badge bg-danger">Delete</a>
                                 </td>
                             </tr>
@@ -150,8 +150,8 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <Pagination :data="posts" :limit="3"
-                                @pagination-change-page="page => getPosts(page, search_categoria, search_id, search_title, search_content, search_global, orderColumn, orderDirection)"
+                    <Pagination :data="capitulos" :limit="3"
+                                @pagination-change-page="page => getCapitulos(page, search_categoria, search_id, search_titulo, search_descripcion, search_global, orderColumn, orderDirection)"
                                 class="mt-4"/>
                 </div>
             </div>
@@ -161,85 +161,85 @@
 
 <script setup>
     import {ref, onMounted, watch} from "vue";
-    import usePosts from "@/composables/posts";
+    import useCapitulos from "@/composables/capitulos";
     import useCategorias from "@/composables/categorias";
     import {useAbility} from '@casl/vue'
 
     const search_categoria = ref('')
     const search_id = ref('')
-    const search_title = ref('')
-    const search_content = ref('')
+    const search_titulo = ref('')
+    const search_descripcion = ref('')
     const search_global = ref('')
     const orderColumn = ref('created_at')
     const orderDirection = ref('desc')
-    const {posts, getPosts, deletePost} = usePosts()
+    const {capitulos, getCapitulos, deleteCapitulo} = useCapitulos()
     const {categoriaList, getCategoriaList} = useCategorias()
     const {can} = useAbility();
     onMounted(() => {
-        getPosts()
+        getCapitulos()
         getCategoriaList()
     })
     const updateOrdering = (column) => {
         orderColumn.value = column;
         orderDirection.value = (orderDirection.value === 'asc') ? 'desc' : 'asc';
-        getPosts(
+        getCapitulos(
             1,
             search_categoria.value,
             search_id.value,
-            search_title.value,
-            search_content.value,
+            search_titulo.value,
+            search_descripcion.value,
             search_global.value,
             orderColumn.value,
             orderDirection.value
         );
     }
     watch(search_categoria, (current, previous) => {
-        getPosts(
+        getCapitulos(
             1,
             current,
             search_id.value,
-            search_title.value,
-            search_content.value,
+            search_titulo.value,
+            search_descripcion.value,
             search_global.value
         )
     })
     watch(search_id, (current, previous) => {
-        getPosts(
+        getCapitulos(
             1,
             search_categoria.value,
             current,
-            search_title.value,
-            search_content.value,
+            search_titulo.value,
+            search_descripcion.value,
             search_global.value
         )
     })
-    watch(search_title, (current, previous) => {
-        getPosts(
+    watch(search_titulo, (current, previous) => {
+        getCapitulos(
             1,
             search_categoria.value,
             search_id.value,
             current,
-            search_content.value,
+            search_descripcion.value,
             search_global.value
         )
     })
-    watch(search_content, (current, previous) => {
-        getPosts(
+    watch(search_descripcion, (current, previous) => {
+        getCapitulos(
             1,
             search_categoria.value,
             search_id.value,
-            search_title.value,
+            search_titulo.value,
             current,
             search_global.value
         )
     })
     watch(search_global, _.debounce((current, previous) => {
-        getPosts(
+        getCapitulos(
             1,
             search_categoria.value,
             search_id.value,
-            search_title.value,
-            search_content.value,
+            search_titulo.value,
+            search_descripcion.value,
             current
         )
     }, 200))
