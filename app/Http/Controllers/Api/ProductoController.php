@@ -29,10 +29,10 @@ class ProductoController extends Controller
         $productos = Producto::create($producto);
 
         if ($request->hasFile('thumbnail')) {
-            $post->addMediaFromRequest('thumbnail')->preservingOriginal()->toMediaCollection('productoImg');
+            $productos->addMediaFromRequest('thumbnail')->preservingOriginal()->toMediaCollection('productoImg');
         }
 
-        return new ProductoResource($productos);//Crear ProductoResource
+        return new ProductoResource($productos);
         //return response()->json(['success' => true, 'data' => $producto]);
     }
     public function destroy($id, Request $request)

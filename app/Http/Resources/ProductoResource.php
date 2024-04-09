@@ -15,13 +15,19 @@ class ProductoResource extends JsonResource
      */
     public function toArray($request)
     {
-
+        try {
+            $resized_image = $this->getMedia('*');//[0]->getUrl('resized-image');
+        } catch (Exception $e) {
+            $resized_image="";
+        }
         return [
             'id' => $this->id,
             'nombre' => $this->nombre,
             'categoria' => $this->categorias,
             'descripcion' => $this->descripcion,
             'precio' => $this->precio,
+            'original_image' => count($this->getMedia('*')) > 0 ? $this->getMedia('*')[0]->getUrl() : null,
+            'resized_image' => $resized_image,
             'created_at' => $this->created_at->toDateString()
         ];
     }
