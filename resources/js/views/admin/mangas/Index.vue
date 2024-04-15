@@ -1,11 +1,11 @@
 <template>
-       <div class="row justify-content-center my-2">
+    <div class="row justify-content-center my-2">
         <div class="col-md-12">
             <div class="card border-0">
                 <div class="card-header bg-transparent">
-                    <h5 class="float-start">Productos</h5>
-                    <router-link :to="{ name: 'productos.create' }" class="btn btn-primary btn-sm float-end">
-                        Create Producto
+                    <h5 class="float-start">mangas</h5>
+                    <router-link :to="{ name: 'mangas.create' }" class="btn btn-primary btn-sm float-end">
+                        Create manga
                     </router-link>
                 </div>
                 <div class="card-body shadow-sm">
@@ -23,9 +23,9 @@
                                            placeholder="Filter by ID">
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left">
-                                    <input v-model="search_nombre" type="text"
+                                    <input v-model="search_titulo" type="text"
                                            class="inline-block mt-1 form-control"
-                                           placeholder="Filter by nombre">
+                                           placeholder="Filter by titulo">
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left">
                                     <v-select multiple v-model="search_categoria" :options="categoriaList"
@@ -61,19 +61,19 @@
                                 </th>
                                 <th class="px-6 py-3 text-left">
                                     <div class="flex flex-row"
-                                         @click="updateOrdering('nombre')">
+                                         @click="updateOrdering('titulo')">
                                         <div class="font-medium text-uppercase"
-                                             :class="{ 'font-bold text-blue-600': orderColumn === 'nombre' }">
-                                            nombre
+                                             :class="{ 'font-bold text-blue-600': orderColumn === 'titulo' }">
+                                            Titulo
                                         </div>
                                         <div class="select-none">
                                 <span :class="{
-                                  'text-blue-600': orderDirection === 'asc' && orderColumn === 'nombre',
-                                  'hidden': orderDirection !== '' && orderDirection !== 'asc' && orderColumn === 'nombre',
+                                  'text-blue-600': orderDirection === 'asc' && orderColumn === 'titulo',
+                                  'hidden': orderDirection !== '' && orderDirection !== 'asc' && orderColumn === 'titulo',
                                 }">&uarr;</span>
                                             <span :class="{
-                                  'text-blue-600': orderDirection === 'desc' && orderColumn === 'nombre',
-                                  'hidden': orderDirection !== '' && orderDirection !== 'desc' && orderColumn === 'nombre',
+                                  'text-blue-600': orderDirection === 'desc' && orderColumn === 'titulo',
+                                  'hidden': orderDirection !== '' && orderDirection !== 'desc' && orderColumn === 'titulo',
                                 }">&darr;</span>
                                         </div>
                                     </div>
@@ -90,9 +90,6 @@
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left">
                                     <span class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">descripcion</span>
-                                </th>
-                                <th class="px-6 py-3 bg-gray-50 text-left">
-                                    <span class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">precio</span>
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left">
                                     <div class="flex flex-row items-center justify-between cursor-pointer"
@@ -119,33 +116,32 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="producto in productos.data" :key="producto.id">
+                            <tr v-for="manga in mangas.data" :key="manga.id">
                                 <td class="px-6 py-4 text-sm" width="20">
-                                    {{ producto.id }}
+                                    {{ manga.id }}
                                 </td>
                                 <td class="px-6 py-4 text-sm">
-                                    {{ producto.nombre }}
+                                    {{ manga.titulo }}
+                                </td>
+                               <td class="px-6 py-4 text-sm">
+                                    <img :src="manga.original_image" alt="image" height="70">
                                 </td>
                                 <td class="px-6 py-4 text-sm">
-                                    <img :src="producto.original_image" alt="image" height="70">
+                                    <div v-for="categoria in manga.categorias">
+                                        {{ categoria.nombre }}
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 text-sm">
-                                    {{ producto.categoria.nombre }}
+                                    <div v-html="manga.descripcion.slice(0, 100) + '...'"></div>
                                 </td>
                                 <td class="px-6 py-4 text-sm">
-                                    <div v-html="producto.descripcion.slice(0, 100) + '...'"></div>
+                                    {{ manga.created_at }}
                                 </td>
                                 <td class="px-6 py-4 text-sm">
-                                    <div v-html="producto.precio + ' €'"></div>
-                                </td>
-                                <td class="px-6 py-4 text-sm">
-                                    {{ producto.created_at }}
-                                </td>
-                                <td class="px-6 py-4 text-sm">
-                                    <router-link v-if="can('producto-edit')"
-                                                 :to="{ name: 'productos.edit', params: { id: producto.id } }" class="badge bg-primary">Edit
+                                    <router-link :to="{ name: 'mangas.edit', params: { id: manga.id } }" class="badge bg-primary">
+                                        Edit
                                     </router-link>
-                                    <a href="#" @click.prevent="deleteProducto(producto.id)"
+                                    <a href="#" @click.prevent="deleteManga(manga.id)"
                                        class="ms-2 badge bg-danger">Delete</a>
                                 </td>
                             </tr>
@@ -154,44 +150,43 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <Pagination :data="productos" :limit="3"
-                                @pagination-change-page="page => getProductos(page, search_categoria, search_id, search_nombre, search_descripcion, search_global, orderColumn, orderDirection)"
+                    <Pagination :data="mangas" :limit="3"
+                                @pagination-change-page="page => getMangas(page, search_categoria, search_id, search_titulo, search_descripcion, search_global, orderColumn, orderDirection)"
                                 class="mt-4"/>
                 </div>
             </div>
         </div>
     </div>
 </template>
-<!-- Primera vista de prueba, aqui finaliza la plantilla html -->
-<script setup>
 
-import {ref, onMounted, watch} from "vue";
-    import useProductos from "@/composables/productos";
+<script setup>
+    import {ref, onMounted, watch} from "vue";
+    import useMangas from "@/composables/mangas";
     import useCategorias from "@/composables/categorias";
     import {useAbility} from '@casl/vue'
 
     const search_categoria = ref('')
     const search_id = ref('')
-    const search_nombre = ref('')
+    const search_titulo = ref('')
     const search_descripcion = ref('')
     const search_global = ref('')
     const orderColumn = ref('created_at')
     const orderDirection = ref('desc')
-    const {productos, getProductos, deleteProducto} = useProductos()
+    const {mangas, getMangas, deleteManga} = useMangas()
     const {categoriaList, getCategoriaList} = useCategorias()
     const {can} = useAbility();
     onMounted(() => {
-        getProductos()
+        getMangas()
         getCategoriaList()
     })
     const updateOrdering = (column) => {
         orderColumn.value = column;
         orderDirection.value = (orderDirection.value === 'asc') ? 'desc' : 'asc';
-        getProductos(
+        getMangas(
             1,
             search_categoria.value,
             search_id.value,
-            search_nombre.value,
+            search_titulo.value,
             search_descripcion.value,
             search_global.value,
             orderColumn.value,
@@ -199,27 +194,27 @@ import {ref, onMounted, watch} from "vue";
         );
     }
     watch(search_categoria, (current, previous) => {
-        getProductos(
+        getMangas(
             1,
             current,
             search_id.value,
-            search_nombre.value,
+            search_titulo.value,
             search_descripcion.value,
             search_global.value
         )
     })
     watch(search_id, (current, previous) => {
-        getProductos(
+        getMangas(
             1,
             search_categoria.value,
             current,
-            search_nombre.value,
+            search_titulo.value,
             search_descripcion.value,
             search_global.value
         )
     })
-    watch(search_nombre, (current, previous) => {
-        getProductos(
+    watch(search_titulo, (current, previous) => {
+        getMangas(
             1,
             search_categoria.value,
             search_id.value,
@@ -229,28 +224,24 @@ import {ref, onMounted, watch} from "vue";
         )
     })
     watch(search_descripcion, (current, previous) => {
-        getProductos(
+        getMangas(
             1,
             search_categoria.value,
             search_id.value,
-            search_nombre.value,
+            search_titulo.value,
             current,
             search_global.value
         )
     })
     watch(search_global, _.debounce((current, previous) => {
-        getProductos(
+        getMangas(
             1,
             search_categoria.value,
             search_id.value,
-            search_nombre.value,
+            search_titulo.value,
             search_descripcion.value,
             current
         )
     }, 200))
 
 </script>
-
-<style scoped>
-
-</style>

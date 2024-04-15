@@ -85,6 +85,14 @@ Route::get('get-capitulo/{id}', [CapituloController::class, 'getCapitulo']);
 Route::get('/mangas', [MangaController::class, 'index']);
 Route::get('/mangas/{id}', [MangaController::class, 'show']);
 
+Route::post('/upload/{id}', [MangaController::class, 'upload']);
+Route::apiResource('mangas', MangaController::class);
+
+Route::get('get-categoria-mangas/{id}', [MangaController::class, 'getCategoriaByManga']);
+
+Route::get('get-mangas', [MangaController::class, 'getMangas']);
+Route::get('get-manga/{id}', [MangaController::class, 'getManga']);
+
 //PROGRESO_USUARIOS
 Route::get('/progreso-usuario/{user_id}', [ProgresoUsuarioController::class, 'index']);
 Route::post('/progreso-usuario', [ProgresoUsuarioController::class, 'store']);

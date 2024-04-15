@@ -1,5 +1,6 @@
 <template>
     {{ exercise }}
+    
     <form @submit.prevent="submitForm">
         <div class="row my-5">
             <div class="col-md-8">

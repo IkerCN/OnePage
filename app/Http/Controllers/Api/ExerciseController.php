@@ -39,7 +39,7 @@ class ExerciseController extends Controller
         if ($request->hasFile('thumbnail')) {
             $exercise->addMediaFromRequest('thumbnail')->preservingOriginal()->toMediaCollection('images-exercises');
         }
-
+        
         return new ExerciseResource($exercise);
     }
 

@@ -12,9 +12,41 @@ use App\Http\Resources\ProductoResource;
 class ProductoController extends Controller
 {
     public function index(){
-        $productos = Producto::with('media'); //con esta funcion podemos guardar todas las tareas de la base de datos en un array
+        $orderColumn = request('order_column', 'created_at');
+        if (!in_array($orderColumn, ['id', 'nombre', 'created_at'])) {
+            $orderColumn = 'created_at';
+        }
+        $orderDirection = request('order_direction', 'desc');
+        if (!in_array($orderDirection, ['asc', 'desc'])) {
+            $orderDirection = 'desc';
+        }
+        $Productos = Producto::with('media')
+            ->whereHas('categorias', function ($query) {
+                if (request('search_categoria')) {
+                    $categorias = explode(",", request('search_categoria'));
+                    $query->whereIn('id', $categorias);
+                }
+            })
+            ->when(request('search_id'), function ($query) {
+                $query->where('id', request('search_id'));
+            })
+            ->when(request('search_nombre'), function ($query) {
+                $query->where('nombre', 'like', '%' . request('search_nombre') . '%');
+            })
+            ->when(request('search_descripcion'), function ($query) {
+                $query->where('descripcion', 'like', '%' . request('search_descripcion') . '%');
+            })
+            ->when(request('search_global'), function ($query) {
+                $query->where(function ($q) {
+                    $q->where('id', request('search_global'))
+                        ->orWhere('nombre', 'like', '%' . request('search_global') . '%')
+                        ->orWhere('descripcion', 'like', '%' . request('search_global') . '%');
 
-        return $productos;
+                });
+            })
+            ->orderBy($orderColumn, $orderDirection)
+            ->paginate(50);
+        return ProductoResource::collection($Productos);
     }
     public function store(Request $request)
     {
@@ -83,7 +115,7 @@ class ProductoController extends Controller
 
     }
 
-    public function getProducto($id)
+    public function getproducto($id)
     {
         return producto::with('categorias')->findOrFail($id);
     }

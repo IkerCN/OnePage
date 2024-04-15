@@ -27,6 +27,10 @@ const Capitulos  = ()  => import('../views/admin/capitulos/Index.vue');
 const capituloCreate  = ()  => import('../views/admin/capitulos/Create.vue');
 const capituloEdit  = ()  => import('../views/admin/capitulos/Edit.vue');
 
+const Mangas  = ()  => import('../views/admin/mangas/Index.vue');
+const mangaCreate  = ()  => import('../views/admin/mangas/Create.vue');
+const mangaEdit  = ()  => import('../views/admin/mangas/Edit.vue');
+
 function requireLogin(to, from, next) {
     let isLogin = false;
     isLogin = !!store.state.auth.authenticated;
@@ -216,6 +220,30 @@ export default [
                         name: 'capitulos.edit',
                         path: 'update/:id',
                         component: capituloEdit,
+                        meta: { breadCrumb: 'Actualizar tareas',linked: false }, // Linked false es para deshabilitar la ruta de seguimiento en el encabezado
+                    }
+                ]
+            },
+            {
+                name: 'manga',
+                path: 'manga',
+                meta: { breadCrumb: 'manga'},
+                children: [
+                    {
+                        name: 'manga.index',
+                        path: '',
+                        component: Mangas,
+                        meta: { breadCrumb: 'mangas' }
+                    },
+                    {
+                        name: 'mangas.create',
+                        path: 'create',
+                        component: mangaCreate,
+                        meta: { breadCrumb: 'Crear tareas' }
+                    },{
+                        name: 'mangas.edit',
+                        path: 'update/:id',
+                        component: mangaEdit,
                         meta: { breadCrumb: 'Actualizar tareas',linked: false }, // Linked false es para deshabilitar la ruta de seguimiento en el encabezado
                     }
                 ]

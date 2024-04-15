@@ -8,6 +8,9 @@
         <div class="row mb-2">
             <div v-for="producto in productos?.data" :key="producto.id" class="col-md-6">
                 <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-white text-dark">
+                   <!--<div class="col-auto d-none d-lg-block d-md-block">
+                        <img :src="getImageUrl(producto)" class="img-fluid"/>
+                    </div>-->
                     <div class="col p-4 d-flex flex-column position-static">
                         <h3 class="mb-0">{{ producto.nombre }}</h3>
                         <div class="mb-1 text-muted">{{ producto.categoria_id }}</div>                                
@@ -28,6 +31,16 @@ import axios from 'axios';
 import {ref, onMounted} from 'vue'
 
 const productos = ref();
+
+function getImageUrl(producto) {
+    let image
+    if (producto.resized_image.length > 0) {
+        image = producto.resized_image
+    } else {
+        image = producto.original_image
+    }
+    return new URL(image, import.meta.url).href
+}
 
 onMounted(() => {
     axios.get('/api/get-productos').then(({data}) => {

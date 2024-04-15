@@ -1,5 +1,5 @@
 <template>
-    {{ capitulo }}
+    {{ manga }}
     <form @submit.prevent="submitForm">
         <div class="row my-5">
             <div class="col-md-8">
@@ -8,10 +8,10 @@
 
                         <!-- titulo -->
                         <div class="mb-3">
-                            <label for="capitulo-titulo" class="form-label">
+                            <label for="manga-titulo" class="form-label">
                                 titulo
                             </label>
-                            <input v-model="capitulo.titulo" id="capitulo-titulo" type="text" class="form-control">
+                            <input v-model="manga.titulo" id="manga-titulo" type="text" class="form-control">
                             <div class="text-danger mt-1">
                                 {{ errors.titulo }}
                             </div>
@@ -23,10 +23,10 @@
                         </div>
                         <!-- descripcion -->
                         <div class="mb-3">
-                            <label for="capitulo-descripcion" class="form-label">
+                            <label for="manga-descripcion" class="form-label">
                                 descripcion
                             </label>
-                            <TextEditorComponent v-model="capitulo.descripcion"/>
+                            <TextEditorComponent v-model="manga.descripcion"/>
                             <div class="text-danger mt-1">
                                 {{ errors.descripcion }}
                             </div>
@@ -66,7 +66,7 @@
                         </h6>
                         <!-- Categoria -->
                         <div class="mb-3">
-                            <v-select multiple v-model="capitulo.categorias" :options="categoriaList"
+                            <v-select multiple v-model="manga.categorias" :options="categoriaList"
                                       :reduce="categoria => categoria.id" label="nombre" class="form-control" placeholder="Select categoria"/>
                             <div class="text-danger mt-1">
                                 {{ errors.categorias }}
@@ -77,33 +77,37 @@
                                 </div>
                             </div>
                         </div>
-                        <!--                        <div class="mb-3">
-                                                    <h6 class="mt-3">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
-                                                            <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-                                                        </svg> Thumbnail
-                                                    </h6>
-                                                    <input @change="capitulo.thumbnail = $event.target.files[0]" type="file" class="form-control"
-                                                           id="thumbnail"/>
-                                                    <div class="text-danger mt-1">
-                                                        <div v-for="message in validationErrors?.thumbnail">
-                                                            {{ message }}
-                                                        </div>
-                                                    </div>
-                                                </div>-->
                         <div class="mb-3">
+                            <h6 class="mt-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+                                </svg> Paginas
+                            </h6>
+                            <FileUpload  name="pagina[]" url="/api/upload/" @upload="onAdvancedUpload($event)" :multiple="true" accept="image/*" :maxFileSize="1000000">
+                            <!--    <FileUpload name="demo[]" url="/api/upload" @upload="onAdvancedUpload($event)" :multiple="true" accept="image/*" :maxFileSize="1000000">-->
+                                    <template #empty>
+                                        <p>Drag and drop files to here to upload.</p>
+                                    </template>
+                                </FileUpload>
+                                <div class="text-danger mt-1">
+                                <div v-for="message in validationErrors?.pagina">
+                                    {{ message }}
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="mb-3">
                             <h6 class="mt-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
                                 </svg> Thumbnail
                             </h6>
-                            <DropZone v-model="capitulo.thumbnail"/>
+                            <DropZone v-model="manga.thumbnail"/>
                             <div class="text-danger mt-1">
                                 <div v-for="message in validationErrors?.thumbnail">
                                     {{ message }}
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -114,7 +118,7 @@
     import { onMounted, reactive, watchEffect } from "vue";
     import { useRoute } from "vue-router";
     import useCategorias from "@/composables/categorias";
-    import useCapitulos from "@/composables/capitulos";
+    import useMangas from "@/composables/mangas";
     import { useForm, useField, defineRule } from "vee-validate";
     import { required, min } from "@/validation/rules"
     import TextEditorComponent from "@/components/TextEditorComponent.vue";
@@ -135,27 +139,27 @@
     const { value: descripcion } = useField('descripcion', null, { initialValue: '' });
     const { value: categorias } = useField('categorias', null, { initialValue: '', label: 'categoria' });
     const { categoriaList, getCategoriaList } = useCategorias()
-    const { capitulo: capituloData, getCapitulo, updateCapitulo, validationErrors, isLoading } = useCapitulos()
-    const capitulo = reactive({
+    const { manga: mangaData, getManga, updateManga, validationErrors, isLoading } = useMangas()
+    const manga = reactive({
         titulo,
         descripcion,
         categorias,
-        thumbnail: ''
+        pagina: []
     })
     const route = useRoute()
     function submitForm() {
-        validate().then(form => { if (form.valid) updateCapitulo(capitulo) })
+        validate().then(form => { if (form.valid) updateManga(manga) })
     }
     onMounted(() => {
-        getCapitulo(route.params.id)
+        getManga(route.params.id)
         getCategoriaList()
     })
     // https://vuejs.org/api/reactivity-core.html#watcheffect
     watchEffect(() => {
-        capitulo.id = capituloData.value.id
-        capitulo.titulo = capituloData.value.titulo
-        capitulo.descripcion = capituloData.value.descripcion
-        capitulo.thumbnail = capituloData.value.original_image
-        capitulo.categorias = capituloData.value.categorias
+        manga.id = mangaData.value.id
+        manga.titulo = mangaData.value.titulo
+        manga.descripcion = mangaData.value.descripcion
+        manga.pagina = mangaData.value.original_image
+        manga.descripcion = mangaData.value.categorias
     })
 </script>

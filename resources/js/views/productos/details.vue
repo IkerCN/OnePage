@@ -8,9 +8,9 @@
             <p class="blog-producto-meta"><a href="#">{{ producto?.categorias?.nombre}}</a></p>
 
             <article class="blog-producto">
-              <!--  <div v-for="image in producto?.media">
+               <div v-for="image in producto?.media">
                     <img :src="image.original_url" alt="image" class="img-fluid">
-                </div>-->
+                </div>
                 <div class="row">
                     <div class="w-auto" v-for="categoria in producto?.categorias" :key="categoria.id">
                         <router-link :to="{ name: 'categoria-productos.index', params: { id: categoria.id } }">{{ categoria.nombre }}</router-link>        
