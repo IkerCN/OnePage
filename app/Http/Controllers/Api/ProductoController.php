@@ -78,7 +78,7 @@ class ProductoController extends Controller
     }
     public function update($id, Request $request)
     {
-
+        $this->authorize('producto-edit');
         $producto = Producto::find($id);
         $request->validate([
             'nombre' => 'required',
@@ -94,6 +94,8 @@ class ProductoController extends Controller
     }
     public function edit($id)
     {
+        $this->authorize('producto-edit');
+
         $producto = Producto::find($id);
 
         return response()->json(['success' => true, 'data' => $producto]);

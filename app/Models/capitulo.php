@@ -16,7 +16,7 @@ class capitulo extends Model implements HasMedia
 
     public function progresos()
     {
-        return $this->morphMany(ProgresoUsuario::class, 'progresable');
+        return $this->morphMany(progreso_usuarios::class, 'progresable');
     }
     public function categorias()
     {

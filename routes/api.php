@@ -48,7 +48,7 @@ Route::get('noticias/{id}', [NoticiaController::class, 'edit']);
 Route::get('productos', [ProductoController::class, 'index']); // Producto
 Route::post('productos/', [ProductoController::class, 'store']); // Producto insertar
 Route::delete('productos/{id}', [ProductoController::class, 'destroy']); // Producto eliminar
-Route::put('productos/update/{id}', [ProductoController::class, 'update']);
+Route::post('productos/update/{id}', [ProductoController::class, 'update']);
 Route::get('productos/{id}', [ProductoController::class, 'edit']);
 
 Route::get('get-productos', [ProductoController::class, 'getproductos']);

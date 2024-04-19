@@ -16,7 +16,7 @@ class manga extends Model implements HasMedia
 
     public function progresos()
     {
-        return $this->morphMany(ProgresoUsuario::class, 'progresable');
+        return $this->morphMany(progreso_usuarios::class, 'progresable');
     }
     public function categorias()
     {
@@ -25,7 +25,7 @@ class manga extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('images/mangas')
+        $this->addMediaCollection('mangaImg')
             ->useFallbackUrl('/images/placeholder.jpg')
             ->useFallbackPath(public_path('/images/placeholder.jpg'));
     }

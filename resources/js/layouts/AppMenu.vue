@@ -36,7 +36,7 @@ const model = ref([
         label: 'Multimedia',
         items: [
             { label: 'Series', icon: 'pi pi-fw pi-play', to: '/admin/capitulo', permision: 'all' },
-            { label: 'Mangas', icon: 'pi pi-fw pi-book', to: '/admin/categories', permision: 'all' }
+            { label: 'Mangas', icon: 'pi pi-fw pi-book', to: '/admin/manga', permision: 'all' }
         ]
     },
     {

@@ -42,7 +42,8 @@ export default function useMangas() {
     const getManga = async (id) => {
         axios.get('/api/mangas/' + id)
             .then(response => {
-                manga.value = response.data.data;
+                manga.value = response.data;
+                console.log(manga.value);
             })
     }
 

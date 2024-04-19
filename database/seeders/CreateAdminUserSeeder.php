@@ -39,7 +39,11 @@ class CreateAdminUserSeeder extends Seeder
             'capitulo-edit',
             'capitulo-delete',
             'manga-edit',
-            'manga-delete'
+            'manga-all',
+            'manga-delete',
+            'producto-edit',
+            'producto-all',
+            'producto-delete'
         ];
         $role2->syncPermissions($permissions);
         Category::create(['name' => 'Vue.js']);

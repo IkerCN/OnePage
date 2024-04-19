@@ -141,7 +141,7 @@
                                 <td class="px-6 py-4 text-sm">
                                     {{ producto.created_at }}
                                 </td>
-                                <td class="px-6 py-4 text-sm">
+                                <td class="px-6 py-4 text-sm">                
                                     <router-link v-if="can('producto-edit')"
                                                  :to="{ name: 'productos.edit', params: { id: producto.id } }" class="badge bg-primary">Edit
                                     </router-link>

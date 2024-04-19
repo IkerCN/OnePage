@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCapituloRequest;
 use App\Http\Resources\CapituloResource;
 use App\Models\Categoria;
+use App\Models\ProgresoUsuario;
 use App\Models\Capitulo;
+
 
 class CapituloController extends Controller
 {
@@ -61,14 +63,12 @@ class CapituloController extends Controller
         //return new CapituloResource($Capitulo);
     }
 
-    public function show(Capitulo $Capitulo)
+    public function show($id)
     {
         $this->authorize('capitulo-edit');
-        if ($Capitulo->user_id !== auth()->user()->id) {
-            return response()->json(['status' => 405, 'success' => false, 'message' => 'You can only edit your own Capitulos']);
-        } else {
-            return new CapituloResource($Capitulo);
-        }
+        $capitulo = Capitulo::find($id);
+        return new CapituloResource($capitulo);
+        
     }
 
 
@@ -77,23 +77,19 @@ class CapituloController extends Controller
     {
         $this->authorize('capitulo-edit');
         
-        if ($Capitulo->user_id !== auth()->id() ) {
-            return response()->json(['status' => 405, 'success' => false, 'message' => 'You can only edit your own Capitulos']);
-        } else {
-            $Capitulo->update($request->validated());
-            //error_log(json_encode($request->categorias));
 
-            $categoria = Categoria::findMany($request->categorias);
-            $Capitulo->categorias()->sync($categoria);
-
-            return new CapituloResource($Capitulo);
-        }
+        $Capitulo->update($request->validated());
+        //error_log(json_encode($request->categorias));
+        $categoria = Categoria::findMany($request->categorias);
+        //$Capitulo->categorias()->sync($categoria);
+        return new CapituloResource($Capitulo);
+        
     }
 
     public function destroy(Capitulo $Capitulo)
     {
         $this->authorize('capitulo-delete');
-        if ($Capitulo->user_id !== auth()->id() && !auth()->user()->hasPermissionTo('Capitulo-all')) {
+        if (!auth()->user()->hasPermissionTo('Capitulo-all')) {
             return response()->json(['status' => 405, 'success' => false, 'message' => 'You can only delete your own Capitulos']);
         } else {
             $Capitulo->delete();

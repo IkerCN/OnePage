@@ -21,6 +21,21 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- numero -->
+                        <div class="mb-3">
+                            <label for="capitulo-numero" class="form-label">
+                                numero
+                            </label>
+                            <input v-model="capitulo.numero" id="capitulo-numero" type="number" class="form-control">
+                            <div class="text-danger mt-1">
+                                {{ errors.numero }}
+                            </div>
+                            <div class="text-danger mt-1">
+                                <div v-for="message in validationErrors?.numero">
+                                    {{ message }}
+                                </div>
+                            </div>
+                        </div>
                         <!-- descripcion -->
                         <div class="mb-3">
                             <label for="capitulo-descripcion" class="form-label">
@@ -66,31 +81,17 @@
                         </h6>
                         <!-- Categoria -->
                         <div class="mb-3">
-                            <v-select multiple v-model="capitulo.categorias" :options="categoriaList"
+                            <v-select v-model="capitulo.categoria_id" :options="categoriaList"
                                       :reduce="categoria => categoria.id" label="nombre" class="form-control" placeholder="Select categoria"/>
                             <div class="text-danger mt-1">
-                                {{ errors.categorias }}
+                                {{ errors.categoria_id }}
                             </div>
                             <div class="text-danger mt-1">
-                                <div v-for="message in validationErrors?.categorias">
+                                <div v-for="message in validationErrors?.categoria_id">
                                     {{ message }}
                                 </div>
                             </div>
                         </div>
-                        <!--                        <div class="mb-3">
-                                                    <h6 class="mt-3">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
-                                                            <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-                                                        </svg> Thumbnail
-                                                    </h6>
-                                                    <input @change="capitulo.thumbnail = $event.target.files[0]" type="file" class="form-control"
-                                                           id="thumbnail"/>
-                                                    <div class="text-danger mt-1">
-                                                        <div v-for="message in validationErrors?.thumbnail">
-                                                            {{ message }}
-                                                        </div>
-                                                    </div>
-                                                </div>-->
                         <div class="mb-3">
                             <h6 class="mt-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
@@ -125,21 +126,24 @@
     // Define a validation schema
     const schema = {
         titulo: 'required|min:5',
-        descripcion: 'required|min:50',
-        categorias: 'required'
+        numero: 'required',
+        descripcion: 'required',
+        categoria_id: 'required'
     }
     // Create a form context with the validation schema
     const { validate, errors, resetForm } = useForm({ validationSchema: schema })
     // Define actual fields for validation
     const { value: titulo } = useField('titulo', null, { initialValue: '' });
+    const { value: numero } = useField('numero', null, { initialValue: '' });
     const { value: descripcion } = useField('descripcion', null, { initialValue: '' });
-    const { value: categorias } = useField('categorias', null, { initialValue: '', label: 'categoria' });
+    const { value: categoria_id } = useField('categoria_id', null, { initialValue: '', label: 'categori_id' });
     const { categoriaList, getCategoriaList } = useCategorias()
     const { capitulo: capituloData, getCapitulo, updateCapitulo, validationErrors, isLoading } = useCapitulos()
     const capitulo = reactive({
         titulo,
+        numero,
         descripcion,
-        categorias,
+        categoria_id,
         thumbnail: ''
     })
     const route = useRoute()
@@ -153,9 +157,10 @@
     // https://vuejs.org/api/reactivity-core.html#watcheffect
     watchEffect(() => {
         capitulo.id = capituloData.value.id
+        capitulo.numero = capituloData.value.numero
         capitulo.titulo = capituloData.value.titulo
         capitulo.descripcion = capituloData.value.descripcion
         capitulo.thumbnail = capituloData.value.original_image
-        capitulo.categorias = capituloData.value.categorias
+        capitulo.categoria_id = capituloData.value.categoria_id
     })
 </script>

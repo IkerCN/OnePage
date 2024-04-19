@@ -76,7 +76,7 @@ export default [
                 component: () => import('../views/posts/details.vue'),
             },
             {
-                path: 'catiagory/:id',
+                path: 'categoria/:id',
                 name: 'categoria-posts.index',
                 component: () => import('../views/categoria/posts.vue'),
             },
@@ -109,6 +109,36 @@ export default [
                 path: 'categoria/:id',
                 name: 'categoria-productos.index',
                 component: () => import('../views/categoria/productos.vue'),
+            },
+            {
+                path: 'mangas',
+                name: 'public-mangas.index',
+                component: () => import('../views/mangas/index.vue'),
+            },
+            {
+                path: 'mangas/:id',
+                name: 'public-mangas.details',
+                component: () => import('../views/mangas/details.vue'),
+            },
+            {
+                path: 'categoria/:id',
+                name: 'categoria-mangas.index',
+                component: () => import('../views/categoria/mangas.vue'),
+            },
+            {
+                path: 'capitulos',
+                name: 'public-capitulos.index',
+                component: () => import('../views/capitulos/index.vue'),
+            },
+            {
+                path: 'capitulos/:id',
+                name: 'public-capitulos.details',
+                component: () => import('../views/capitulos/details.vue'),
+            },
+            {
+                path: 'categoria/:id',
+                name: 'categoria-capitulos.index',
+                component: () => import('../views/categoria/capitulos.vue'),
             },
             {
                 path: 'login',
@@ -192,7 +222,7 @@ export default [
                         component: productoCreate,
                         meta: { breadCrumb: 'Crear tareas' }
                     },{
-                        name: 'productos.update',
+                        name: 'productos.edit',
                         path: 'update/:id',
                         component: productoUpdate,
                         meta: { breadCrumb: 'Actualizar tareas',linked: false }, // Linked false es para deshabilitar la ruta de seguimiento en el encabezado

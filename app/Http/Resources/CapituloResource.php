@@ -24,8 +24,9 @@ class CapituloResource extends JsonResource
         return [
             'id' => $this->id,
             'titulo' => $this->titulo,
+            'numero' => $this->numero,
             'descripcion' => $this->descripcion,
-            'descripcion' => $this->descripcion,
+            'categoria_id' => $this->categoria_id,
             'original_image' => count($this->getMedia('*')) > 0 ? $this->getMedia('*')[0]->getUrl() : null,
 
             'created_at' => $this->created_at->toDateString()

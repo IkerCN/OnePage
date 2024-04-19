@@ -155,15 +155,13 @@ function submitForm() {
     validate().then(form => {
         if (form.valid) storeManga(manga)
     })
+    console.log($form); 
 }
 
 onMounted(() => {
     getCategoriaList()
 })
 
-const onAdvancedUpload = ($event) => {
-    console.log($event); 
-};
 
 
 </script>

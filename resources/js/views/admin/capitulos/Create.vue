@@ -20,8 +20,8 @@
                                 </div>
                             </div>
                         </div>
-                                                <!-- numero -->
-                                                <div class="mb-3">
+                        <!-- numero -->
+                        <div class="mb-3">
                             <label for="capitulo-numero" class="form-label">
                                 numero
                             </label>
