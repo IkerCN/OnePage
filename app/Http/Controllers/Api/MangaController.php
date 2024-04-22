@@ -62,15 +62,8 @@ class MangaController extends Controller
          $Manga = $request->all();
          $Mangas = Manga::create($Manga);
 
-        if ($request->hasFile('pagina')) {
-            $fileAdders = $Mangas->addMultipleMediaFromRequest(['pagina'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('images/mangas');
-                });
-        }
-
-        //return response()->json(['success' => true, 'data' => $Manga]);
-        return new MangaResource($Manga);
+        return response()->json(['success' => true, 'data' => $Manga]);
+        //return new MangaResource($Manga);
     }
 
     public function show($id)
@@ -98,15 +91,15 @@ class MangaController extends Controller
         
     }
 
-    public function destroy(Manga $Manga)
-    {
+    public function destroy($id)
+    {        
         $this->authorize('manga-delete');
-        if (!auth()->user()->hasPermissionTo('Manga-all')) {
-            return response()->json(['status' => 405, 'success' => false, 'message' => 'You can only delete your own Mangas']);
-        } else {
-            $Manga->delete();
-            return response()->nodescripcion();
-        }
+
+        $manga = Manga::find($id);
+        $manga->delete();
+
+        return response()->json(['succes' => true, 'data' => "Deleted"]);
+        
     }
 
     public function getMangas()

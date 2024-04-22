@@ -84,7 +84,7 @@ Route::get('get-capitulo/{id}', [CapituloController::class, 'getCapitulo']);
 //MANGAS
 Route::get('/mangas', [MangaController::class, 'index']);
 Route::get('/mangas/{id}', [MangaController::class, 'show']);
-
+Route::delete('/mangas/{id}', [MangaController::class, 'destroy']);
 Route::post('/upload/{id}', [MangaController::class, 'upload']);
 Route::apiResource('mangas', MangaController::class);
 

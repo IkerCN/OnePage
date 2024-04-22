@@ -73,103 +73,51 @@
                 </div>
             </div>
             <div class="col-6 xl:col-6">
-                <div class="container">
-                    <h4 class="text-center">Manga</h4>
-                    <div class="accordion" id="accordionOne">
-                        <div class="accordion-item">
-                            <h5 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    <b>"categoria1"</b>
-                                </button>
-                            </h5>
-                            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionOne">
-                                <div class="accordion-body">
-                                    <p>Tomo 1</p>
-                                    <p>Tomo 2</p>
-                                    <p>Tomo 3</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h5 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    <b>"categoria2"</b>
-                                </button>
-                            </h5>
-                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionOne">
-                                <div class="accordion-body">
-                                    <p>Tomo 1</p>
-                                    <p>Tomo 2</p>
-                                    <p>Tomo 3</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h5 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    <b>"categoria3"</b>
-                                </button>
-                            </h5>
-                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionOne">
-                                <div class="accordion-body">
-                                    <p>Tomo 1</p>
-                                    <p>Tomo 2</p>
-                                    <p>Tomo 3</p>
-                                </div>
-                            </div>
+    <div class="container">
+        <h4 class="text-center">Manga</h4>
+        <div class="accordion" id="accordionOne" v-if="categorias?.length > 0">
+            <div class="accordion-item" v-for="(categoria, index) in categorias" :key="'manga' + categoria.id">
+                <h5 class="accordion-header">
+                    <button class="accordion-button" type="button" :class="{ 'collapsed': index !== 0 }" :aria-expanded="index === 0 ? 'true' : 'false'" :aria-controls="'collapseManga' + categoria.id" data-bs-toggle="collapse" :data-bs-target="'#collapseManga' + categoria.id">
+                        <b>{{ categoria.nombre }}</b>
+                    </button>
+                </h5>
+                <div :id="'collapseManga' + categoria.id" class="accordion-collapse collapse" :class="{ 'show': index === 0 }" :aria-labelledby="'headingManga' + categoria.id" data-bs-parent="#accordionOne">
+                    <div class="accordion-body">
+                        <div v-for="manga in mangas?.data" :key="manga.id">
+                            <p v-if="manga.categoria_id === categoria.id">
+                                <router-link :to="{ name: 'public-mangas.details', params: { id: manga.id } }" class="stretched-link">{{ manga.titulo }}</router-link>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-6 xl:col-6">
-                <div class="container">
-                    <h4 class="text-center">Videos</h4>
-                    <div class="accordion" id="accordionTwo">
-                        <div class="accordion-item">
-                            <h5 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseOne">
-                                    <b>"categoria1"</b>
-                                </button>
-                            </h5>
-                            <div id="collapseFour" class="accordion-collapse collapse show" data-bs-parent="#accordionTwo">
-                                <div class="accordion-body">
-                                    <p>Cap. 1</p>
-                                    <p>Cap. 2</p>
-                                    <p>Cap. 3</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h5 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseTwo">
-                                    <b>"categoria2"</b>
-                                </button>
-                            </h5>
-                            <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionTwo">
-                                <div class="accordion-body">
-                                    <p>Cap. 1</p>
-                                    <p>Cap. 2</p>
-                                    <p>Cap. 3</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h5 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseThree">
-                                    <b>"categoria3"</b>
-                                </button>
-                            </h5>
-                            <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionTwo">
-                                <div class="accordion-body">
-                                    <p>Cap. 1</p>
-                                    <p>Cap. 2</p>
-                                    <p>Cap. 3</p>
-                                </div>
-                            </div>
+        </div>
+    </div>
+</div>
+<div class="col-6 xl:col-6">
+    <div class="container">
+        <h4 class="text-center">Videos</h4>
+        <div class="accordion" id="accordionTwo" v-if="categorias?.length > 0">
+            <div class="accordion-item" v-for="(categoria, index) in categorias" :key="'video' + categoria.id">
+                <h5 class="accordion-header">
+                    <button class="accordion-button" type="button" :class="{ 'collapsed': index !== 0 }" :aria-expanded="index === 0 ? 'true' : 'false'" :aria-controls="'collapseVideo' + categoria.id" data-bs-toggle="collapse" :data-bs-target="'#collapseVideo' + categoria.id">
+                        <b>{{ categoria.nombre }}</b>
+                    </button>
+                </h5>
+                <div :id="'collapseVideo' + categoria.id" class="accordion-collapse collapse" :class="{ 'show': index === 0 }" :aria-labelledby="'headingVideo' + categoria.id" data-bs-parent="#accordionTwo">
+                    <div class="accordion-body">
+                        <div v-for="capitulo in capitulos?.data" :key="capitulo.id">
+                            <p v-if="capitulo.categoria_id === categoria.id">
+                                <router-link :to="{ name: 'public-capitulos.details', params: { id: capitulo.id } }" class="stretched-link">{{ capitulo.titulo }}</router-link>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
         </div>
     </div>
 </template>
@@ -179,10 +127,22 @@ import axios from 'axios';
 import {ref, onMounted} from 'vue'
 
 const posts = ref();
+const mangas = ref();
+const capitulos = ref();
+const categorias = ref();
 
 onMounted(() => {
+    axios.get('/api/get-mangas').then(({data}) => {
+        mangas.value = data;
+    })
+    axios.get('/api/categoria-list').then(({ data }) => {
+            categorias.value = data.data
+        })
     axios.get('/api/get-posts').then(({data}) => {
         posts.value = data;
+    })
+    axios.get('/api/get-capitulos').then(({data}) => {
+        capitulos.value = data;
     })
 })
 </script>

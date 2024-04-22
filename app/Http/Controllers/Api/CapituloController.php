@@ -93,7 +93,7 @@ class CapituloController extends Controller
             return response()->json(['status' => 405, 'success' => false, 'message' => 'You can only delete your own Capitulos']);
         } else {
             $Capitulo->delete();
-            return response()->nodescripcion();
+            return response()->noContent();
         }
     }
 

@@ -6,9 +6,12 @@
                 {{ capitulo?.titulo }}
             </h3>
             <article class="blog-capitulo">
-                <div v-for="image in capitulo?.media">
-                    <!--Video-->
-                    <img :src="image.original_url" alt="image" class="img-fluid">
+                <div v-for="anime in capitulo?.media">
+                    <!--Video width="320" height="240" -->
+                    <video width="100%" controls :key="anime.original_url">
+                        <source :src="anime.original_url" type="video/mp4" />
+                    </video>
+                    
                 </div>
             </article>
 
