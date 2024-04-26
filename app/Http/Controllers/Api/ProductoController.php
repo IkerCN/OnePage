@@ -7,6 +7,7 @@ use App\Models\Producto;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductoResource;
+use Illuminate\Support\Facades\Session;
 
 
 class ProductoController extends Controller
@@ -119,7 +120,39 @@ class ProductoController extends Controller
 
     public function getproducto($id)
     {
-        return producto::with('categorias')->findOrFail($id);
+        return Producto::with('categorias', 'media')->findOrFail($id);
+    }
+
+    public function agregarAlCarrito(Request $request)
+    {
+        $nombreProducto = $request->input('nombreProducto');
+
+        // Obtener el array de productos de la sesión
+        $productos = Session::get('productos', []);
+
+        // Verificar si el producto ya existe en el array
+        if (array_key_exists($nombreProducto, $productos)) {
+            // Si existe, incrementar la cantidad en 1
+            $productos[$nombreProducto]++;
+        } else {
+            // Si no existe, agregar el producto al array con cantidad 1
+            $productos[$nombreProducto] = 1;
+        }
+
+        // Guardar el array actualizado en la sesión
+        Session::put('productos', $productos);
+
+        // Respondemos con algún mensaje si es necesario
+        return response()->json(['message' => 'Producto agregado o cantidad incrementada correctamente']);
+    }
+
+    public function verCarrito(Request $request)
+    {
+        // Obtener los productos almacenados en la sesión
+        $productosEnCarrito = $request->session()->get('productos', []);
+        
+        // Devolver los productos en una respuesta JSON
+        return response()->json(['productosEnCarrito' => $productosEnCarrito]);
     }
 }
 

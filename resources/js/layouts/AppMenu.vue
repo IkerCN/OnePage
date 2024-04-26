@@ -42,7 +42,7 @@ const model = ref([
     {
         label: 'Blog',
         items: [
-            { label: 'Todas las entradas', icon: 'pi pi-fw pi-pencil', to: 'admin/posts', permision: 'all' }
+            { label: 'Todas las entradas', icon: 'pi pi-fw pi-pencil', to: '/admin/posts', permision: 'all' }
         ]
     }
 ]);

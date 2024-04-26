@@ -55,6 +55,9 @@ Route::get('get-productos', [ProductoController::class, 'getproductos']);
 Route::get('get-categoria-productos/{id}', [ProductoController::class, 'getCategoriaByProducto']);
 Route::get('get-producto/{id}', [ProductoController::class, 'getproducto']);
 
+Route::post('/agregar-al-carrito', [ProductoController::class, 'agregarAlCarrito']);
+Route::get('/ver-carrito', [ProductoController::class, 'verCarrito'])->name('ver-carrito');
+
 
 //  PEDIDOS
 Route::get('pedidos', [PedidoController::class, 'index']);

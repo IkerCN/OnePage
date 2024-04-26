@@ -8,6 +8,7 @@
             <p class="blog-producto-meta"><a href="#">{{ producto?.categorias?.nombre}}</a></p>
 
             <article class="blog-producto">
+                {{ producto?.media }}
                <div v-for="image in producto?.media">
                     <img :src="image.original_url" alt="image" class="img-fluid">
                 </div>

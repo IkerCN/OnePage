@@ -16,8 +16,8 @@
             </article>
 
             <nav class="blog-pagination" aria-label="Pagination">
-                <router-link :to="{ name: 'public-capitulos.details', params: { id: (capitulo?.id +1) } }" class="btn btn-outline-primary rounded-pill">Siguiente capitulo</router-link>
-                <router-link :to="{ name: 'public-capitulos.details', params: { id: (capitulo?.id -1) } }" class="btn btn-outline-secondary rounded-pill">Capitulo anterior</router-link>
+                <button class="btn btn-outline-secondary rounded-pill" @click="capituloAnterior(capitulo.id-1)">Capitulo anterior</button>
+                <button class="btn btn-outline-primary rounded-pill" @click="siguienteCapitulo(capitulo.id+1)">Siguiente capitulo</button>
 
             </nav>
 
@@ -52,11 +52,22 @@
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useRoute } from "vue-router";
+import { useRouter } from 'vue-router'
 
 
     const capitulo = ref();
     const categorias = ref();
     const route = useRoute()
+    const router = useRouter()
+
+
+    const capituloAnterior = (id) => {
+        router.push({ name: 'public-capitulos.details', params: { id: id } });
+    };
+    
+    const siguienteCapitulo = (id) => {
+        router.push({ name: 'public-capitulos.details', params: { id: id } });
+    };
 
     onMounted(() => {
         axios.get('/api/get-capitulo/' + route.params.id).then(({ data }) => {
