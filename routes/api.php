@@ -57,6 +57,7 @@ Route::get('get-producto/{id}', [ProductoController::class, 'getproducto']);
 
 Route::post('/agregar-al-carrito', [ProductoController::class, 'agregarAlCarrito']);
 Route::get('/ver-carrito', [ProductoController::class, 'verCarrito'])->name('ver-carrito');
+Route::post('/vaciar-carrito', [ProductoController::class, 'vaciarCarrito']);
 
 
 //  PEDIDOS

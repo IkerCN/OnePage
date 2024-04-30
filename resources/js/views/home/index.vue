@@ -139,9 +139,8 @@
                                                 <h5 class="card-title"></h5>
                                                 <p class="card-text" v-html="producto.descripcion.substring(0, 150) + '...'"></p>
                                                 <p class="card-text" v-html="producto.precio + '€'"></p>
+                                                <button class="btn btn-secondary" @click="verProducto(producto.id)">Ve al producto</button>
                                             </div>
-                                            <router-link :to="{ name: 'public-productos.details', params: { id: producto.id } }" class="mb-2 stretched-link">Ve al producto
-                                            </router-link>
                                             <div class="card-footer color-fondo-blanco text-body-secondary">
                                                 <button @click="agregarAlCarrito(producto)" class="btn btn-primary">Añadir al carrito</button>
                                             </div>
@@ -217,9 +216,9 @@ onMounted(() => {
 
 const agregarAlCarrito = (producto) => {
     // Realizar una solicitud al servidor para agregar el producto al carrito
-    axios.post('/agregar-al-carrito', { producto })
+    axios.post('/api/agregar-al-carrito', { producto })
         .then(response => {
-            console.log(response.data.message);
+            console.log(response.data);
             // Aquí podrías mostrar un mensaje de éxito al usuario si lo deseas
         })
         .catch(error => {
@@ -227,7 +226,9 @@ const agregarAlCarrito = (producto) => {
             // Aquí podrías mostrar un mensaje de error al usuario si lo deseas
         });
 };
-
+const verProducto = (id) => {
+    router.push({ name: 'public-productos.details', params: { id: id } });
+};
 const chunkedProductos = computed(() => {
     if (!productos.value || !productos.value.data || productos.value.data.length === 0) {
         return [[]];

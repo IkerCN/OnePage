@@ -125,27 +125,40 @@ class ProductoController extends Controller
 
     public function agregarAlCarrito(Request $request)
     {
-        $nombreProducto = $request->input('nombreProducto');
-
+        // Obtener el nombre del producto que deseas agregar al carrito desde el request
+        $producto = $request->input('producto');
+    
         // Obtener el array de productos de la sesión
-        $productos = Session::get('productos', []);
-
+        $carrito = $request->session()->get('productos', []);
+    
         // Verificar si el producto ya existe en el array
-        if (array_key_exists($nombreProducto, $productos)) {
-            // Si existe, incrementar la cantidad en 1
-            $productos[$nombreProducto]++;
-        } else {
-            // Si no existe, agregar el producto al array con cantidad 1
-            $productos[$nombreProducto] = 1;
+        $productoEnCarrito = false;
+        foreach ($carrito as $key => $item) {
+            if ($item['producto'] === $producto) {
+                // Si existe, incrementar la cantidad en 1
+                $carrito[$key]['cantidad']++;
+                $productoEnCarrito = true;
+                break;
+            }
         }
-
+    
+        // Si el producto no estaba en el carrito, agregarlo con cantidad 1
+        if (!$productoEnCarrito) {
+            $carrito[] = [
+                'producto' => $producto,
+                'cantidad' => 1
+            ];
+        }
+    
         // Guardar el array actualizado en la sesión
-        Session::put('productos', $productos);
-
-        // Respondemos con algún mensaje si es necesario
-        return response()->json(['message' => 'Producto agregado o cantidad incrementada correctamente']);
+        $request->session()->put('productos', $carrito);
+    
+        // Respondemos con los datos de los productos añadidos
+        return response()->json(['message' => 'Producto agregado al carrito', 'productos' => $carrito]);
     }
-
+    
+    
+    
     public function verCarrito(Request $request)
     {
         // Obtener los productos almacenados en la sesión
@@ -153,6 +166,15 @@ class ProductoController extends Controller
         
         // Devolver los productos en una respuesta JSON
         return response()->json(['productosEnCarrito' => $productosEnCarrito]);
+    }
+    
+    public function vaciarCarrito(Request $request)
+    {
+        // Eliminar todos los datos del carrito de la sesión
+        $request->session()->forget('productos');
+
+        // Respondemos con un mensaje indicando que el carrito ha sido vaciado
+        return response()->json(['message' => 'Carrito vaciado exitosamente']);
     }
 }
 

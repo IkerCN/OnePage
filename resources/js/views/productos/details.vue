@@ -8,7 +8,6 @@
             <p class="blog-producto-meta"><a href="#">{{ producto?.categorias?.nombre}}</a></p>
 
             <article class="blog-producto">
-                {{ producto?.media }}
                <div v-for="image in producto?.media">
                     <img :src="image.original_url" alt="image" class="img-fluid">
                 </div>
@@ -22,7 +21,7 @@
             </article>
 
             <nav class="blog-pagination" aria-label="Pagination">
-                <router-link :to="{ name : 'public-productos.index'}" class="btn btn-outline-primary rounded-pill">Añade al carrito</router-link>
+                <button @click="agregarAlCarrito(producto)" class="btn btn-primary">Añadir al carrito</button>
             </nav>
 
             </div>
@@ -57,6 +56,19 @@ import { useRoute } from "vue-router";
     const producto = ref();
     const categorias = ref();
     const route = useRoute()
+
+    const agregarAlCarrito = (producto) => {
+        // Realizar una solicitud al servidor para agregar el producto al carrito
+        axios.post('/api/agregar-al-carrito', { producto })
+            .then(response => {
+                console.log(response.data);
+                // Aquí podrías mostrar un mensaje de éxito al usuario si lo deseas
+            })
+            .catch(error => {
+                console.error('Error al agregar al carrito:', error);
+                // Aquí podrías mostrar un mensaje de error al usuario si lo deseas
+            });
+    };
 
     onMounted(() => {
         axios.get('/api/get-producto/' + route.params.id).then(({ data }) => {

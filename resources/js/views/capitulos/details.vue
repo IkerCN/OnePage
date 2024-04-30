@@ -66,7 +66,9 @@ import { useRouter } from 'vue-router'
     };
     
     const siguienteCapitulo = (id) => {
+        //hacerlo con un update
         router.push({ name: 'public-capitulos.details', params: { id: id } });
+        console.log(route.params.id);
     };
 
     onMounted(() => {

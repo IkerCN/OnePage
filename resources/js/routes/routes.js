@@ -141,6 +141,11 @@ export default [
                 component: () => import('../views/categoria/capitulos.vue'),
             },
             {
+                path: 'carrito',
+                name: 'public-carrito.index',
+                component: () => import('../views/carrito/index.vue'),
+            },
+            {
                 path: 'login',
                 name: 'auth.login',
                 component: () => import('../views/login/Login.vue'),
