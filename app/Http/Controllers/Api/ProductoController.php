@@ -133,10 +133,10 @@ class ProductoController extends Controller
     
         // Verificar si el producto ya existe en el array
         $productoEnCarrito = false;
-        foreach ($carrito as $key => $item) {
-            if ($item['producto'] === $producto) {
+        foreach ($carrito as &$productoCarrito) { // Usamos '&' para poder modificar directamente el elemento del array
+            if ($productoCarrito['producto'] == $producto['id']) {
                 // Si existe, incrementar la cantidad en 1
-                $carrito[$key]['cantidad']++;
+                $productoCarrito['cantidad']++;
                 $productoEnCarrito = true;
                 break;
             }
@@ -145,7 +145,7 @@ class ProductoController extends Controller
         // Si el producto no estaba en el carrito, agregarlo con cantidad 1
         if (!$productoEnCarrito) {
             $carrito[] = [
-                'producto' => $producto,
+                'producto' => $producto['id'],
                 'cantidad' => 1
             ];
         }
@@ -157,16 +157,27 @@ class ProductoController extends Controller
         return response()->json(['message' => 'Producto agregado al carrito', 'productos' => $carrito]);
     }
     
-    
-    
     public function verCarrito(Request $request)
     {
         // Obtener los productos almacenados en la sesión
         $productosEnCarrito = $request->session()->get('productos', []);
         
-        // Devolver los productos en una respuesta JSON
-        return response()->json(['productosEnCarrito' => $productosEnCarrito]);
+        // Obtener los detalles completos de los productos en base a sus IDs
+        $detallesProductos = [];
+        foreach ($productosEnCarrito as $item) {
+            $producto = Producto::with('categorias', 'media')->findOrFail($item['producto']);
+            if ($producto) {
+                $detallesProductos[] = [
+                    'producto' => $producto,
+                    'cantidad' => $item['cantidad']
+                ];
+            }
+        }
+        
+        // Devolver los productos con sus detalles en una respuesta JSON
+        return response()->json(['productosEnCarrito' => $detallesProductos]);
     }
+    
     
     public function vaciarCarrito(Request $request)
     {

@@ -1,19 +1,21 @@
 <template>
-    <div class="container">
-      <div class="d-flex justify-content-center">
-        <div class="card mt-4 titulo-wiki">
-          <h2 class="text-center text-white mt-4">Productos en el Carrito</h2>
+  <div class="container">
+    <div class="col-md-12">
+        <div class="text-white my-4 titulo-carrito">
+          <h2 class="text-center mt-4">Productos en el Carrito</h2>
         </div>
-      </div>
-      <div v-if="productosEnCarrito.length === 0" class="text-center mt-4">
-        <p>No hay productos en el carrito.</p>
-      </div>
-      <div v-else class="row mb-2">
-        <div v-for="producto in productosEnCarrito" :key="producto.id" class="col-md-6">
-          <div class="card mb-3">
+    </div>
+    <div class="row">
+      <!-- Columna de Productos -->
+      <div class="col-md-6">
+        <div v-if="productosEnCarrito.length === 0" class="text-center mt-4">
+          <p>No hay productos en el carrito.</p>
+        </div>
+        <div v-else>
+          <div v-for="producto in productosEnCarrito" :key="producto.producto.id" class="card mb-3">
             <div class="row g-0">
               <div class="col-md-4">
-                <img :src="getImageUrl(producto.producto)" class="img-fluid rounded-start" alt="...">
+                <img :src="producto.producto.media[0].original_url" class="img-fluid rounded-start" alt="...">
               </div>
               <div class="col-md-8">
                 <div class="card-body">
@@ -27,48 +29,75 @@
           </div>
         </div>
       </div>
-      <div class="d-flex justify-content-center mt-4">
-        <button class="btn btn-danger" @click="vaciarCarrito">Vaciar Carrito</button>
+      <!-- Columna del Resumen del Pedido y Acciones -->
+      <div class="col-md-6">
+        <!-- Resumen del Pedido -->
+        <div class="card mt-4">
+          <div class="card-body">
+            <h5 class="card-title">Resumen del Pedido</h5>
+            <p>Total de Productos: {{ calcularTotalPedido() }}€</p>
+            <p>IVA (21%): {{ calcularIVAPedido() }}€</p>
+            <p>Total a Pagar: {{ calcularTotalPedido() + calcularIVAPedido() }}€</p>
+          </div>
+        </div>
+        <!-- Acciones -->
+        <div class="mt-4">
+          <button class="btn btn-success">Finalizar Pedido</button>
+          <button class="btn btn-danger" @click="vaciarCarrito">Vaciar Carrito</button>
+          <!-- Puedes agregar más acciones aquí según sea necesario -->
+        </div>
       </div>
     </div>
-  </template>
-  
-  <script setup>
-  import axios from 'axios';
-  import { ref, onMounted } from 'vue'
-  
-  const productosEnCarrito = ref([]);
-  
-  function getImageUrl(producto) {
-    let image
-   // if (producto.resized_image.length > 0) {
-    //  image = producto.resized_image
-    //} else {
-      image = producto.original_image
-    //}
-    return new URL(image, import.meta.url).href
-  }
-  
-  const vaciarCarrito = () => {
-    // Realizar una solicitud al servidor para vaciar el carrito
-    axios.post('/api/vaciar-carrito')
-      .then(response => {
-        // Actualizar la lista de productos en el carrito después de vaciarlo
-        productosEnCarrito.value = [];
-        console.log(response.data);
-        // Aquí podrías mostrar un mensaje de éxito al usuario si lo deseas
-      })
-      .catch(error => {
-        console.error('Error al vaciar el carrito:', error);
-        // Aquí podrías mostrar un mensaje de error al usuario si lo deseas
-      });
-  };
-  
-  onMounted(() => {
-    axios.get('/api/ver-carrito').then(({ data }) => {
+  </div>
+</template>
+<script setup>
+import axios from 'axios';
+import { ref, onMounted } from 'vue'
+
+// Define el ref para almacenar los productos en el carrito
+const productosEnCarrito = ref([]);
+
+// Define una función para vaciar el carrito
+const vaciarCarrito = () => {
+  // Realizar una solicitud al servidor para vaciar el carrito
+  axios.post('/api/vaciar-carrito')
+    .then(response => {
+      // Actualizar la lista de productos en el carrito después de vaciarlo
+      productosEnCarrito.value = [];
+      console.log(response.data);
+      // Aquí podrías mostrar un mensaje de éxito al usuario si lo deseas
+    })
+    .catch(error => {
+      console.error('Error al vaciar el carrito:', error);
+      // Aquí podrías mostrar un mensaje de error al usuario si lo deseas
+    });
+};
+
+// Llama a la API para obtener los productos en el carrito al cargar la página
+onMounted(() => {
+  axios.get('/api/ver-carrito')
+    .then(({ data }) => {
       productosEnCarrito.value = data.productosEnCarrito;
     })
+    .catch(error => {
+      console.error('Error al obtener productos en el carrito:', error);
+    });
+});
+
+// Define una función para calcular el total del pedido
+const calcularTotalPedido = () => {
+  let total = 0
+  productosEnCarrito.value.forEach(producto => {
+    total += producto.producto.precio * producto.cantidad
   })
-  </script>
-  
-  
+  return total.toFixed(2)
+}
+
+// Define una función para calcular el IVA del pedido
+const calcularIVAPedido = () => {
+  const total = calcularTotalPedido()
+  const iva = (total * 0.21).toFixed(2) // IVA del 21%
+  return iva
+}
+</script>
+
