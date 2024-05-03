@@ -178,7 +178,6 @@ class ProductoController extends Controller
         return response()->json(['productosEnCarrito' => $detallesProductos]);
     }
     
-    
     public function vaciarCarrito(Request $request)
     {
         // Eliminar todos los datos del carrito de la sesión
@@ -187,5 +186,56 @@ class ProductoController extends Controller
         // Respondemos con un mensaje indicando que el carrito ha sido vaciado
         return response()->json(['message' => 'Carrito vaciado exitosamente']);
     }
+
+    public function eliminarProductoCarrito(Request $request)
+    {
+        // Obtener el ID del producto a eliminar desde la solicitud
+        $productoId = $request->input('producto_id');
+        
+        // Obtener el array de productos de la sesión
+        $productosEnCarrito = $request->session()->get('productos', []);
+        
+        // Buscar el producto en el array y eliminarlo
+        foreach ($productosEnCarrito as $key => $producto) {
+            if ($producto['producto'] == $productoId) {
+                unset($productosEnCarrito[$key]);
+                break;
+            }
+        }
+    
+        // Reindexar el array para que los índices sean secuenciales
+        $productosEnCarrito = array_values($productosEnCarrito);
+    
+        // Guardar el array actualizado en la sesión
+        $request->session()->put('productos', $productosEnCarrito);
+    
+        // Respondemos con un mensaje indicando que el producto ha sido eliminado
+        return response()->json(['message' => 'Producto eliminado del carrito']);
+    }
+
+    public function actualizarCantidadProductoCarrito(Request $request)
+    {
+        // Obtener el ID del producto y la nueva cantidad desde la solicitud
+        $productoId = $request->input('producto_id');
+        $cantidad = $request->input('cantidad');
+        
+        // Obtener el array de productos de la sesión
+        $productosEnCarrito = $request->session()->get('productos', []);
+        
+        // Buscar el producto en el array y actualizar su cantidad
+        foreach ($productosEnCarrito as &$producto) {
+            if ($producto['producto'] == $productoId) {
+                $producto['cantidad'] = $cantidad;
+                break;
+            }
+        }
+    
+        // Guardar el array actualizado en la sesión
+        $request->session()->put('productos', $productosEnCarrito);
+    
+        // Respondemos con un mensaje indicando que la cantidad ha sido actualizada
+        return response()->json(['message' => 'Cantidad actualizada en el carrito']);
+    }
+
 }
 

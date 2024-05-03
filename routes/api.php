@@ -58,11 +58,13 @@ Route::get('get-producto/{id}', [ProductoController::class, 'getproducto']);
 Route::post('/agregar-al-carrito', [ProductoController::class, 'agregarAlCarrito']);
 Route::get('/ver-carrito', [ProductoController::class, 'verCarrito'])->name('ver-carrito');
 Route::post('/vaciar-carrito', [ProductoController::class, 'vaciarCarrito']);
+Route::post('/eliminar-producto', [ProductoController::class, 'eliminarProductoCarrito']);
+Route::post('/actualizar-cantidad-producto', [ProductoController::class, 'actualizarCantidadProductoCarrito']);
 
 
 //  PEDIDOS
 Route::get('pedidos', [PedidoController::class, 'index']);
-Route::post('pedidos/', [PedidoController::class, 'store']);
+Route::post('/finalizar-pedido', [PedidoController::class, 'store']);
 Route::put('pedidos/update/{id}', [PedidoController::class, 'update']);
 Route::delete('pedidos/{id}', [PedidoController::class, 'destroy']);
 Route::get('pedidos/{id}', [PedidoController::class, 'edit']);

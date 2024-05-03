@@ -18,15 +18,31 @@ class PedidoController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
-            'usuario_id' => 'required',
+        // Valida los datos del pedido
+        $validatedData = $request->validate([
             'precioFinal' => 'required'
         ]);
-        $producto = $request->all();
-        $tarea = Pedido::create($producto);
+        $validatedData['usuario_id'] = auth()->id();
 
-        return response()->json(['success' => true, 'data' => $producto]);
+        // Crea el pedido
+        $pedido = Pedido::create($validatedData);
+    
+        // Obtén los productos del carrito de la sesión
+        $productosEnCarrito = $request->session()->get('productos', []);
+    
+        // Itera sobre los productos en el carrito
+        foreach ($productosEnCarrito as $productoCarrito) {
+            // Agrega el producto al pedido y a la tabla intermedia
+            $pedido->productos()->attach($productoCarrito['producto'], ['cantidad' => $productoCarrito['cantidad']]);
+        }
+    
+        // Limpia el carrito de la sesión
+        $request->session()->forget('productos');
+    
+        // Retorna una respuesta con los datos del pedido
+        return response()->json(['success' => true, 'data' => $pedido]);
     }
+    
     public function destroy($id, Request $request)
     {
 
