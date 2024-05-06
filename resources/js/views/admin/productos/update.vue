@@ -25,7 +25,7 @@
                         <!-- precio -->
                         <div class="mb-3">
     <label for="producto-precio" class="form-label">
-        sss
+        Precio
     </label>
     <input v-model="producto.precio" type="number" min="0" id="producto-precio" step="0.01" class="form-control">
     <div class="text-danger mt-1">
@@ -128,7 +128,7 @@
 
     // Define a validation schema
     const schema = {
-        precio: 'required|numeric|min_value:0',
+        nombre: 'required|numeric|min_value:0',
         precio: 'required',
         descripcion: 'required',
         categoria_id: 'required'

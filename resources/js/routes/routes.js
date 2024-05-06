@@ -23,6 +23,9 @@ const Productos  = ()  => import('../views/admin/productos/Index.vue');
 const productoCreate  = ()  => import('../views/admin/productos/create.vue');
 const productoUpdate  = ()  => import('../views/admin/productos/update.vue');
 
+const pedidos  = ()  => import('../views/admin/pedidos/index.vue');
+const pedidoUpdate  = ()  => import('../views/admin/pedidos/edit.vue');
+
 const Capitulos  = ()  => import('../views/admin/capitulos/Index.vue');
 const capituloCreate  = ()  => import('../views/admin/capitulos/Create.vue');
 const capituloEdit  = ()  => import('../views/admin/capitulos/Edit.vue');
@@ -109,6 +112,11 @@ export default [
                 path: 'categoria/:id',
                 name: 'categoria-productos.index',
                 component: () => import('../views/categoria/productos.vue'),
+            },
+            {
+                path: 'pedido',
+                name: 'public-pedidos.index',
+                component: () => import('../views/pedidos/index.vue'),
             },
             {
                 path: 'mangas',
@@ -231,6 +239,25 @@ export default [
                         path: 'update/:id',
                         component: productoUpdate,
                         meta: { breadCrumb: 'Actualizar tareas',linked: false }, // Linked false es para deshabilitar la ruta de seguimiento en el encabezado
+
+                    }
+                ]
+            },
+            {
+                name: 'pedido',
+                path: 'pedido',
+                meta: { breadCrumb: 'pedido'},
+                children: [
+                    {
+                        name: 'pedido.index',
+                        path: '',
+                        component: pedidos,
+                        meta: { breadCrumb: 'pedidos' }
+                    },{
+                        name: 'pedidos.edit',
+                        path: 'update/:id',
+                        component: pedidoUpdate,
+                        meta: { breadCrumb: 'Actualizar pedido',linked: false }, // Linked false es para deshabilitar la ruta de seguimiento en el encabezado
 
                     }
                 ]

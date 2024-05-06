@@ -46,13 +46,17 @@
 
 <script setup>
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUpdated } from 'vue';
 import { useRoute } from "vue-router";
-
+import { useRouter } from 'vue-router'
 
     const manga = ref();
+    const mangas = ref();
     const categorias = ref();
     const route = useRoute()
+    const router = useRouter()
+
+    let tomo = router.currentRoute.value.params.id;
 
     onMounted(() => {
         axios.get('/api/get-manga/' + route.params.id).then(({ data }) => {
@@ -61,5 +65,22 @@ import { useRoute } from "vue-router";
         axios.get('/api/categoria-list').then(({ data }) => {
             categorias.value = data.data
         })
+        axios.get('/api/get-mangas').then(({data}) => {
+            mangas.value = data;
+        })
     })
+
+    onUpdated( async() =>{
+        if(tomo != router.currentRoute.value.params.id){
+            let idExiste = mangas.value.data.some(manga => manga.id === parseInt(router.currentRoute.value.params.id));
+
+            if (idExiste) {
+                location.reload();
+            }else {
+                // Restaurar el valor original del parámetro 'id' en la URL
+                router.push({ name: 'public-mangas.details', params: { id: tomo } });
+            }
+        }
+    });
+
 </script>

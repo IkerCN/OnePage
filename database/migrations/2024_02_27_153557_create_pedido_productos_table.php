@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreign('pedido_id')->references('id')->on('pedidos')->onDelete('cascade');
             $table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade');
             $table->integer('cantidad');
-            $table->timestamps();
         });
     }
 

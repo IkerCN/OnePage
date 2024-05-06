@@ -16,9 +16,8 @@
             </article>
 
             <nav class="blog-pagination" aria-label="Pagination">
-                <button class="btn btn-outline-secondary rounded-pill" @click="capituloAnterior(capitulo.id-1)">Capitulo anterior</button>
-                <button class="btn btn-outline-primary rounded-pill" @click="siguienteCapitulo(capitulo.id+1)">Siguiente capitulo</button>
-
+                <router-link :to="{ name: 'public-capitulos.details', params: { id: (capitulo?.id -1) } }" class="stretched-link">Capitulo anterior</router-link>
+                <router-link :to="{ name: 'public-capitulos.details', params: { id: (capitulo?.id +1) } }" class="btn btn-outline-primary rounded-pill">Siguiente capitulo</router-link>
             </nav>
 
             </div>
@@ -50,26 +49,17 @@
 
 <script setup>
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUpdated } from 'vue';
 import { useRoute } from "vue-router";
 import { useRouter } from 'vue-router'
 
-
     const capitulo = ref();
+    const capitulos = ref();
     const categorias = ref();
     const route = useRoute()
     const router = useRouter()
 
-
-    const capituloAnterior = (id) => {
-        router.push({ name: 'public-capitulos.details', params: { id: id } });
-    };
-    
-    const siguienteCapitulo = (id) => {
-        //hacerlo con un update
-        router.push({ name: 'public-capitulos.details', params: { id: id } });
-        console.log(route.params.id);
-    };
+    let anime = router.currentRoute.value.params.id;
 
     onMounted(() => {
         axios.get('/api/get-capitulo/' + route.params.id).then(({ data }) => {
@@ -78,5 +68,21 @@ import { useRouter } from 'vue-router'
         axios.get('/api/categoria-list').then(({ data }) => {
             categorias.value = data.data
         })
+        axios.get('/api/get-capitulos').then(({data}) => {
+            capitulos.value = data;
+        })
     })
+
+    onUpdated( async() =>{
+        if(anime != router.currentRoute.value.params.id){
+            let idExiste = capitulos.value.data.some(capitulo => capitulo.id === parseInt(router.currentRoute.value.params.id));
+
+            if (idExiste) {
+                location.reload();
+            }else {
+                // Restaurar el valor original del parámetro 'id' en la URL
+                router.push({ name: 'public-capitulos.details', params: { id: anime } });
+            }
+        }
+    });
 </script>
