@@ -72,6 +72,14 @@ class PedidoController extends Controller
 
         return response()->json(['success' => true, 'data' => $producto]);
     }
+
+    public function misPedidos(){
+        $usr = auth()->id();
+        $pedidos = Pedido::with('productos')->where('usuario_id', $usr)->get(); 
+    
+        return $pedidos;
+    }
+    
 }
 
 

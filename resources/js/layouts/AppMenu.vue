@@ -23,7 +23,7 @@ const model = ref([
         items: [
             //label: es el texto  icn: el icono que esta al lado    to: hacia donde va  permision: son los tipos de usuarios que pueden ver eso
             { label: 'Productos', icon: 'pi pi-fw pi-shopping-bag', to: '/admin/producto', permision: 'all'},
-            { label: 'Carrito', icon: 'pi pi-fw pi-shopping-cart', to: '/admin/tasks', permision: 'all'}
+            { label: 'Pedidos', icon: 'pi pi-fw pi-shopping-cart', to: '/admin/pedidos', permision: 'all'}
         ]
     },
     {

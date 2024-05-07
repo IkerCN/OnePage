@@ -4,8 +4,9 @@ import { useRouter } from 'vue-router'
 export default function useProductos() {
     const productos = ref({})
     const producto = ref({
-        title: '',
-        content: '',
+        nombre: '',
+        precio: '',
+        descripcion: '',
         categoria_id: ''
     })
     const router = useRouter()
@@ -17,8 +18,8 @@ export default function useProductos() {
         page = 1,
         search_categoria = '',
         search_id = '',
-        search_title = '',
-        search_content = '',
+        search_nombre = '',
+        search_descripcion = '',
         search_global = '',
         order_column = 'created_at',
         order_direction = 'desc'
@@ -26,8 +27,8 @@ export default function useProductos() {
         axios.get('/api/productos?page=' + page +
             '&search_categoria=' + search_categoria +
             '&search_id=' + search_id +
-            '&search_title=' + search_title +
-            '&search_content=' + search_content +
+            '&search_nombre=' + search_nombre +
+            '&search_descripcion=' + search_descripcion +
             '&search_global=' + search_global +
             '&order_column=' + order_column +
             '&order_direction=' + order_direction)

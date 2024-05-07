@@ -68,6 +68,8 @@ Route::post('/finalizar-pedido', [PedidoController::class, 'store']);
 Route::put('pedidos/update/{id}', [PedidoController::class, 'update']);
 Route::delete('pedidos/{id}', [PedidoController::class, 'destroy']);
 Route::get('pedidos/{id}', [PedidoController::class, 'edit']);
+Route::get('mis-pedidos', [PedidoController::class, 'misPedidos']);
+
 
 //CATEGORIAS
 Route::get('categoria-list', [CategoriaController::class, 'getList']);

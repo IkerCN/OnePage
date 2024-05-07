@@ -245,7 +245,7 @@ export default [
             },
             {
                 name: 'pedido',
-                path: 'pedido',
+                path: 'pedidos',
                 meta: { breadCrumb: 'pedido'},
                 children: [
                     {

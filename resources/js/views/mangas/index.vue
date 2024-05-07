@@ -26,27 +26,6 @@
             </div>
         </div>
     </div>
-    <div class="container">
-        <h4 class="text-center">Manga</h4>
-        <div class="accordion" id="accordionOne" v-if="categorias?.length > 0">
-            <div class="accordion-item" v-for="(categoria, index) in categorias" :key="categoria.id">
-                <h5 class="accordion-header">
-                    <button class="accordion-button" type="button" :class="{ 'collapsed': index !== 0 }" :aria-expanded="index === 0 ? 'true' : 'false'" :aria-controls="'collapse' + categoria.id" data-bs-toggle="collapse" :data-bs-target="'#collapse' + categoria.id">
-                        <b>{{ categoria.nombre }}</b>
-                    </button>
-                </h5>
-                <div :id="'collapse' + categoria.id" class="accordion-collapse collapse" :class="{ 'show': index === 0 }" :aria-labelledby="'heading' + categoria.id" data-bs-parent="#accordionOne">
-                    <div class="accordion-body">
-                        <div v-for="manga in mangas?.data" :key="manga.id">
-                            <p v-if="manga.categoria_id === categoria.id">
-                                <router-link :to="{ name: 'public-mangas.details', params: { id: manga.id } }" class="stretched-link">{{ manga.titulo }}</router-link>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </template>
 
 <script setup>

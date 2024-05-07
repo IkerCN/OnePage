@@ -5,7 +5,7 @@
         </button>
         <router-link to="/" class="layout-topbar-logo d-flex justify-content-center ajustar">
             <!--<img src="/images/logo.svg" alt="logo" /> -->
-            <span>Logo</span>
+            <img src="/images/logo_onepage_sin color.svg" alt="Logo de OnePage" height="40">
         </router-link>
         <nav class="layout-topbar-menu">
             <div class="container-fluid">

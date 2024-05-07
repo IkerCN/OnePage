@@ -128,7 +128,7 @@
 
     // Define a validation schema
     const schema = {
-        nombre: 'required|numeric|min_value:0',
+        nombre: 'required',
         precio: 'required',
         descripcion: 'required',
         categoria_id: 'required'

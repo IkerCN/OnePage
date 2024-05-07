@@ -16,7 +16,7 @@
             </article>
 
             <nav class="blog-pagination" aria-label="Pagination">
-                <router-link :to="{ name: 'public-capitulos.details', params: { id: (capitulo?.id -1) } }" class="stretched-link">Capitulo anterior</router-link>
+                <router-link :to="{ name: 'public-capitulos.details', params: { id: (capitulo?.id -1) } }" class="btn btn-outline-secondary rounded-pill">Capitulo anterior</router-link>
                 <router-link :to="{ name: 'public-capitulos.details', params: { id: (capitulo?.id +1) } }" class="btn btn-outline-primary rounded-pill">Siguiente capitulo</router-link>
             </nav>
 

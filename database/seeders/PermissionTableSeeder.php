@@ -44,12 +44,19 @@ class PermissionTableSeeder extends Seeder
             'category-delete',
             'capitulo-edit',
             'capitulo-delete',
+            'capitulo-all',
+            'wikipedia-edit',
+            'wikipedia-delete',
+            'wikipedia-all',
             'manga-edit',
             'manga-all',
             'manga-delete',
             'producto-edit',
             'producto-all',
-            'producto-delete'
+            'producto-delete',            
+            'pedido-edit',
+            'pedido-all',
+            'pedido-delete'
             ];
 
         foreach ($permissions as $permission) {
