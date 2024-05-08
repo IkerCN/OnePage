@@ -142,7 +142,7 @@
                                                 <button class="btn btn-secondary" @click="verProducto(producto.id)">Ve al producto</button>
                                             </div>
                                             <div class="card-footer color-fondo-blanco text-body-secondary">
-                                                <button @click="agregarAlCarrito(producto)" class="btn btn-primary">Añadir al carrito</button>
+                                                <button v-if="user?.name" @click="agregarAlCarrito(producto)" class="btn btn-primary">Añadir al carrito</button>
                                             </div>
                                         </div>
                                     </div>
@@ -169,8 +169,11 @@
 import axios from 'axios';
 import {ref, onMounted, computed} from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore} from "vuex";
 
+const store = useStore();
 
+const user = computed(() => store.getters["auth/user"])
 const router = useRouter();
 const posts = ref();
 const productos = ref();

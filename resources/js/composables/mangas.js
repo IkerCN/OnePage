@@ -119,7 +119,7 @@ export default function useMangas() {
                     axios.delete('/api/mangas/' + id)
                         .then(response => {
                             getMangas()
-                            router.push({name: 'manga.index'})
+                            router.push({name: 'mangas.index'})
                             swal({
                                 icon: 'success',
                                 title: 'manga deleted successfully'

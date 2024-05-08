@@ -42,8 +42,8 @@
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ user.name }}
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
+                        <ul class="dropdown-menu dropdown-menu-end"> 
+                            <li v-if="user && user.roles && user.roles.length > 0 && user.roles[0].name === 'admin'"><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
                             <li><router-link to="/carrito" class="dropdown-item">Carrito</router-link></li>
                             <li><router-link to="/pedido" class="dropdown-item">Mis Pedidos</router-link></li>
                             <li><hr class="dropdown-divider"></li>

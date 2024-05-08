@@ -21,7 +21,7 @@
             </article>
 
             <nav class="blog-pagination" aria-label="Pagination">
-                <button @click="agregarAlCarrito(producto)" class="btn btn-primary">Añadir al carrito</button>
+                <button v-if="user?.name" @click="agregarAlCarrito(producto)" class="btn btn-primary">Añadir al carrito</button>
             </nav>
 
             </div>
@@ -49,10 +49,13 @@
 
 <script setup>
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from "vue-router";
+import { useStore} from "vuex";
 
+const store = useStore();
 
+    const user = computed(() => store.getters["auth/user"])
     const producto = ref();
     const categorias = ref();
     const route = useRoute()

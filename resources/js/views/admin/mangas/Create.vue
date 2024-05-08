@@ -56,21 +56,21 @@
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
+                        <h5>Las paginas se añaden editando el manga una vez creado</h5>
+                    </div>
+                </div>
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
                         <h6>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
                             </svg> Action
                         </h6>
                         <div class="mt-3 text-center">
-                            <button :disabled="isLoading" class="btn btn btn-outline-primary me-2">
-                                <div v-show="isLoading" class=""></div>
-                                <span v-if="isLoading">Processing...</span>
-                                <span v-else>Save Draft</span>
-                            </button>
                             <button :disabled="isLoading" class="btn btn-primary">
                                 <div v-show="isLoading" class=""></div>
                                 <span v-if="isLoading">Processing...</span>
-                                <span v-else>Publish</span>
+                                <span v-else>create</span>
                             </button>
                         </div>
                         <h6 class="mt-3">

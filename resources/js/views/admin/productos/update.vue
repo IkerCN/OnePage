@@ -66,15 +66,10 @@
                             </svg> Action
                         </h6>
                         <div class="mt-3 text-center">
-                            <button :disabled="isLoading" class="btn btn btn-outline-primary me-2">
-                                <div v-show="isLoading" class=""></div>
-                                <span v-if="isLoading">Processing...</span>
-                                <span v-else>Save Draft</span>
-                            </button>
                             <button :disabled="isLoading" class="btn btn-primary">
                                 <div v-show="isLoading" class=""></div>
                                 <span v-if="isLoading">Processing...</span>
-                                <span v-else>Publish</span>
+                                <span v-else>Update</span>
                             </button>
                         </div>
                         <h6 class="mt-3">

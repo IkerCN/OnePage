@@ -56,7 +56,14 @@ export default function useAuth() {
                     showConfirmButton: false,
                     timer: 1500
                 })
-                await router.push({ name: 'admin.index' })
+                if((user.roles.length !== 0)){
+                    if(user?.roles[0].name == 'admin'){
+                        await router.push({ name: 'admin.index' });
+                    }  
+                }
+                else{
+                    await router.push({ name: 'home' });
+                }
             })
             .catch(error => {
                 if (error.response?.data) {

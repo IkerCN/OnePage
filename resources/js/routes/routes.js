@@ -159,6 +159,7 @@ export default [
                 component: () => import('../views/login/Login.vue'),
                 beforeEnter: guest,
             },
+            
             {
                 path: 'register',
                 name: 'auth.register',
@@ -224,7 +225,7 @@ export default [
                 meta: { breadCrumb: 'Producto'},
                 children: [
                     {
-                        name: 'producto.index',
+                        name: 'productos.index',
                         path: '',
                         component: Productos,
                         meta: { breadCrumb: 'Productos' }
@@ -268,7 +269,7 @@ export default [
                 meta: { breadCrumb: 'capitulo'},
                 children: [
                     {
-                        name: 'capitulo.index',
+                        name: 'capitulos.index',
                         path: '',
                         component: Capitulos,
                         meta: { breadCrumb: 'capitulos' }
@@ -292,7 +293,7 @@ export default [
                 meta: { breadCrumb: 'manga'},
                 children: [
                     {
-                        name: 'manga.index',
+                        name: 'mangas.index',
                         path: '',
                         component: Mangas,
                         meta: { breadCrumb: 'mangas' }

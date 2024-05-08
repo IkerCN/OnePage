@@ -89,7 +89,7 @@ class CapituloController extends Controller
     public function destroy(Capitulo $Capitulo)
     {
         $this->authorize('capitulo-delete');
-        if (!auth()->user()->hasPermissionTo('Capitulo-all')) {
+        if (!auth()->user()->hasPermissionTo('capitulo-all')) {
             return response()->json(['status' => 405, 'success' => false, 'message' => 'You can only delete your own Capitulos']);
         } else {
             $Capitulo->delete();
