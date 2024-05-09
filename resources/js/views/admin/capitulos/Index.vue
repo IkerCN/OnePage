@@ -124,7 +124,10 @@
                                     {{ capitulo.titulo }}
                                 </td>
                                 <td class="px-6 py-4 text-sm">
-                                    <img :src="capitulo.original_image" alt="image" height="70">
+                                    <video height="70">
+                                        <source :src="capitulo.original_image" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
                                 </td>
                                 <td class="px-6 py-4 text-sm">
                                     <div v-for="categoria in capitulo.categorias">

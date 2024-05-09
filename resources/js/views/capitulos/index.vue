@@ -6,7 +6,10 @@
                 <div
                     class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                     <div class="col-auto d-none d-lg-block d-md-block">
-                        <img :src="getImageUrl(capitulo)" class="img-fluid"/>
+                        <video class="img-fluid">
+                            <source :src="getImageUrl(capitulo)" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
                     </div>
                     <div class="col p-4 d-flex flex-column position-static">
                         <!--<div class="row">

@@ -27,7 +27,7 @@
                 <i class="pi pi-user"></i>
                 <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm">
                     <li>
-                        <router-link :to="{ name: 'admin.index' }" class="dropdown-item">Perfil</router-link>
+                        <button class="dropdown-item" @click="perfil()">Perfil</button>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -50,10 +50,12 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useLayout } from '../composables/layout';
+import { useRouter } from 'vue-router'
 import { useStore } from 'vuex';
 import useAuth from "@/composables/auth";
 
 const { onMenuToggle } = useLayout();
+const router = useRouter();
 const store = useStore();
 const user = computed(() => store.state.auth.user)
 const { processing, logout } = useAuth();
@@ -70,7 +72,9 @@ const topbarMenuClasses = computed(() => {
     };
 });
 
-
+const perfil = () => {
+    router.push({ name: 'admin.index'});
+};
 </script>
 
 <style lang="scss" scoped>

@@ -14,7 +14,7 @@
                                     <th class="px-6 py-3 bg-gray-50 text-left">Precio Final</th>
                                     <th class="px-6 py-3 bg-gray-50 text-left">Fecha de Creación</th>
                                     <th class="px-6 py-3 bg-gray-50 text-left">Productos</th>
-                                    <th class="px-6 py-3 bg-gray-50 text-left">Acciones</th>
+                                    <th class="px-6 py-3 bg-gray-50 text-left">Precio Unitario</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -25,12 +25,16 @@
                                     <td class="px-6 py-4 text-sm">
                                         <ul>
                                             <li v-for="producto in pedido.productos" :key="producto.id">
-                                                {{ producto.nombre }} - {{ producto.precio }}
+                                                {{ producto.nombre }}
                                             </li>
                                         </ul>
                                     </td>
                                     <td class="px-6 py-4 text-sm">
-                                        <!-- Aquí podrías colocar tus acciones -->
+                                        <ul>
+                                            <li v-for="producto in pedido.productos" :key="producto.id">
+                                                {{ producto.precio }}
+                                            </li>
+                                        </ul>
                                     </td>
                                 </tr>
                             </tbody>

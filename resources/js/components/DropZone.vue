@@ -12,7 +12,7 @@
             class="hidden-input"
             @change="onChange"
             ref="refFiles"
-            accept=".gif,.webp,.jpg,.jpeg,.png"
+            accept=".gif,.webp,.jpg,.jpeg,.png,.mp4"
         />
 
 
@@ -21,6 +21,10 @@
                 <div>
                     
                     <img v-if="!img" class="preview-img" v-bind:src="modelValue"/>
+                    <video v-else-if="img && tipo == 'video'" class="preview-img">
+                        <source :src="img" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                     <img v-else class="preview-img" v-bind:src="img"/>
              
                     <p :title="thumbnail.name">
@@ -69,13 +73,20 @@ let img = ref('')
 const emit = defineEmits(['update:modelValue'])
 
 
-
+let tipo = 'img';
 
 const onChange = (() => {
     thumbnail.value = refFiles.value.files;
-    img = URL.createObjectURL(refFiles.value.files[0]);
-    //console.log(img);
+    const file = refFiles.value.files[0];
+    img = URL.createObjectURL(file);
+    const fileType = file.type;
+    if (fileType.startsWith('video/')) {
+        tipo = 'video';
+    } else {
+        tipo = 'img';
+    }
 })
+
 
 /*
 const generateThumbnail = ((file) => {

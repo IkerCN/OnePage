@@ -27,7 +27,7 @@
                                 <td>{{wikipedia.contenido}}</td>
                                 <td>{{wikipedia.usuario_id}}</td>
                                 <td class="text-center">
-                                    <router-link :to="{titulo: 'wikipedias.update', params: {id: wikipedia.id} }" class="btn btn-warning me-2">Edit</router-link>
+                                    <router-link :to="{name: 'wikipedias.update', params: {id: wikipedia.id} }" class="btn btn-warning me-2">Edit</router-link>
                                     <button class="btn btn-danger" @click="deleteWikipedia(wikipedia.id, index)">Delete</button>
                                 </td>
                             </tr>
