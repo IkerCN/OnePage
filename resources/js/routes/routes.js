@@ -69,17 +69,17 @@ export default [
                 component: () => import('../views/home/index.vue'), //hemos cambiado esta ruta por la de home
             },
             {
-                path: 'posts',
+                path: 'blogs',
                 name: 'public-posts.index',
                 component: () => import('../views/posts/index.vue'),
             },
             {
-                path: 'posts/:id',
+                path: 'blog/:id',
                 name: 'public-posts.details',
                 component: () => import('../views/posts/details.vue'),
             },
             {
-                path: 'categoria/:id',
+                path: 'categoria/blog/:id',
                 name: 'categoria-posts.index',
                 component: () => import('../views/categoria/posts.vue'),
             },
@@ -94,7 +94,7 @@ export default [
                 component: () => import('../views/wikipedias/details.vue'),
             },
             {
-                path: 'categoria/:id',
+                path: 'categoria/wiki/:id',
                 name: 'categoria-wiki.index',
                 component: () => import('../views/categoria/wikipedias.vue'),
             },
@@ -109,7 +109,7 @@ export default [
                 component: () => import('../views/productos/details.vue'),
             },
             {
-                path: 'categoria/:id',
+                path: 'categoria/producto/:id',
                 name: 'categoria-productos.index',
                 component: () => import('../views/categoria/productos.vue'),
             },
@@ -129,7 +129,7 @@ export default [
                 component: () => import('../views/mangas/details.vue'),
             },
             {
-                path: 'categoria/:id',
+                path: 'categoria/manga/:id',
                 name: 'categoria-mangas.index',
                 component: () => import('../views/categoria/mangas.vue'),
             },
@@ -144,7 +144,7 @@ export default [
                 component: () => import('../views/capitulos/details.vue'),
             },
             {
-                path: 'categoria/:id',
+                path: 'categoria/capitulo/:id',
                 name: 'categoria-capitulos.index',
                 component: () => import('../views/categoria/capitulos.vue'),
             },

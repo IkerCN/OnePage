@@ -1,10 +1,14 @@
 <template>
     <div class="container">
-        <h2 class="text-center my-4">Categoria Posts</h2>
+        <div class="d-flex justify-content-center">
+            <div class="card mt-4 titulo-post">
+                <h2 class="text-center text-white mt-4">Blogs Categoria</h2>
+            </div>
+        </div>    
         <div class="row mb-2">
             <div v-for="post in posts?.data" :key="post.id" class="col-md-6">
                 <div
-                    class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    class="bg-white row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                     <div class="col-auto d-none d-lg-block d-md-block">
                         <img :src="getImageUrl(post)" class="img-fluid"/>
                     </div>
@@ -49,3 +53,11 @@ onMounted(() => {
     })
 })
 </script>
+<style>
+.titulo-post{
+    background-color:#252525;
+    width:250px;
+    height:150px;
+    border:none;
+}
+</style>

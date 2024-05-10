@@ -152,6 +152,7 @@ const isOutsideClicked = (event) => {
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
+    flex-direction: row;
 }
 
 ol {

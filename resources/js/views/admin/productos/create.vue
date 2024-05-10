@@ -1,50 +1,105 @@
 <template>
-    <div>
-      <h2 class="section-title">Agregar Producto</h2>
-      <form @submit.prevent="submitForm">
-        <fieldset>
-          <legend class="section-title">Información del Producto</legend>
-          <div class="form-group">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" v-model="producto.nombre" required class="form-control">
+  <form @submit.prevent="submitForm">
+      <div class="row my-5">
+          <div class="col-md-8">
+              <div class="card border-0 shadow-sm">
+                  <div class="card-body">
+
+                      <!-- Title -->
+                      <div class="mb-3">
+                          <label for="producto-title" class="form-label">
+                              Nombre
+                          </label>
+                          <input v-model="producto.nombre" id="producto-title" type="text" class="form-control">
+                          <div class="text-danger mt-1">
+                              {{ errors.nombre }}
+                          </div>
+                          <div class="text-danger mt-1">
+                              <div v-for="message in validationErrors?.nombre">
+                                  {{ message }}
+                              </div>
+                          </div>
+                      </div>
+                      <!-- Content -->
+                      <div class="mb-3">
+                          <label for="producto-content" class="form-label">
+                              Descripcion
+                          </label>
+                          <TextEditorComponent v-model="producto.descripcion"/>
+                          <div class="text-danger mt-1">
+                              {{ errors.descripcion }}
+                          </div>
+                          <div class="text-danger mt-1">
+                              <div v-for="message in validationErrors?.descripcion">
+                                  {{ message }}
+                              </div>
+                          </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="precio">Precio</label>
+                        <input type="number" id="precio" step="any" min="0" v-model.number="producto.precio" required class="form-control">
+                          <div class="text-danger mt-1">
+                              {{ errors.precio }}
+                          </div>
+                          <div class="text-danger mt-1">
+                              <div v-for="message in validationErrors?.precio">
+                                  {{ message }}
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
           </div>
-          <div class="form-group">
-            <label for="descripcion">Descripción:</label>
-            <textarea id="descripcion" v-model="producto.descripcion" required class="form-control"></textarea>
+          <div class="col-md-4">
+              <div class="card border-0 shadow-sm">
+                  <div class="card-body">
+                      <h6>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+                          </svg> Action
+                      </h6>
+                      <div class="mt-3 text-center">
+                          <button :disabled="isLoading" class="btn btn-primary">
+                              <div v-show="isLoading" class=""></div>
+                              <span v-if="isLoading">Processing...</span>
+                              <span v-else>Create</span>
+                          </button>
+                      </div>
+                      <h6 class="mt-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+                          </svg> Categoria
+                      </h6>
+                      <!-- Categoria -->
+                      <div class="mb-3">
+                        <label for="categoria">Categoría:</label>
+                        <v-select v-model="producto.categoria_id" :options="categoriaList" :reduce="categoria => categoria.id" label="nombre" class="form-control" placeholder="Seleccionar categoría"/>
+                        <div class="text-danger mt-1">
+                          <div v-for="message in validationErrors?.categoria_id">{{ message }}</div>
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                          <h6 class="mt-3">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
+                                  <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+                              </svg> Thumbnail
+                          </h6>
+                          <DropZone v-model="producto.thumbnail"/>
+                          <div class="text-danger mt-1">
+                              <div v-for="message in validationErrors?.thumbnail">
+                                  {{ message }}
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
           </div>
-          <div class="form-group">
-            <label for="precio">Precio:</label>
-            <input type="number" id="precio" step="any" min="0" v-model.number="producto.precio" required class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="categoria">Categoría:</label>
-            <v-select v-model="producto.categoria_id" :options="categoriaList" :reduce="categoria => categoria.id" label="nombre" class="form-control" placeholder="Seleccionar categoría"/>
-            <div class="text-danger mt-1">
-              <div v-for="message in validationErrors?.categoria_id">{{ message }}</div>
-            </div>
-          </div>
-        </fieldset>
-        
-        <fieldset>
-          <legend class="section-title">Thumbnail</legend>
-          <div class="form-group">
-            <DropZone v-model="producto.thumbnail"/>
-            <div class="text-danger mt-1">
-              <div v-for="message in validationErrors?.thumbnail">{{ message }}</div>
-            </div>
-          </div>
-        </fieldset>
-        
-        <button :disabled="isLoading" class="btn btn-primary submit-button">
-          <div v-show="isLoading" class=""></div>
-          <span v-if="isLoading">Procesando...</span>
-          <span v-else>Agregar Producto</span>
-        </button>
-      </form>
-    </div>
-  </template>
+      </div>
+  </form>
+</template>
   
   <script setup>
+  import TextEditorComponent from "@/components/TextEditorComponent.vue";
   import {onMounted, reactive} from "vue";
   import DropZone from "@/components/DropZone.vue";
   import useCategoria_id from "@/composables/categorias";

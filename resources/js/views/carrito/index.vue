@@ -57,11 +57,13 @@
 </template>
 <script setup>
 import axios from 'axios';
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 
 
 // Define el ref para almacenar los productos en el carrito
 const productosEnCarrito = ref([]);
+
+const swal = inject('$swal')
 
 
 // Define una función para vaciar el carrito
@@ -162,11 +164,17 @@ const finalizarPedido = () => {
     console.log('Pedido finalizado:', response.data);
     // Limpia el carrito en el frontend
     productosEnCarrito.value = [];
-    // Aquí podrías mostrar un mensaje de éxito al usuario si lo deseas
+    swal({
+        icon: 'success',
+        title: 'Pedido finalizado'
+    })
   })
   .catch(error => {
     console.error('Error al finalizar pedido:', error);
-    // Aquí podrías mostrar un mensaje de error al usuario si lo deseas
+    swal({
+        icon: 'error',
+        title: 'Error al finalizar pedido'
+    })  
   });
 };
 

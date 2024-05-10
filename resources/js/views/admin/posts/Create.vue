@@ -4,7 +4,6 @@
             <div class="col-md-8">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
-
                         <!-- Title -->
                         <div class="mb-3">
                             <label for="post-title" class="form-label">

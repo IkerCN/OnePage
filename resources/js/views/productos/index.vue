@@ -1,24 +1,29 @@
 <template>
     <div class="container">
         <div class="d-flex justify-content-center">
-            <div class="card mt-4 titulo-wiki">
+            <div class="card mt-4 titulo-productos">
                 <h2 class="text-center text-white mt-4">Productos</h2>
             </div>
-        </div>
-        <div class="row mb-2">
-            <div v-for="producto in productos?.data" :key="producto.id" class="col-md-6">
-                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-white text-dark">
-                   <div class="col-auto d-none d-lg-block d-md-block">
-                        <img :src="getImageUrl(producto)" class="img-fluid"/>
-                    </div>
-                    <div class="col p-4 d-flex flex-column position-static">
-                        <h3 class="mb-0">{{ producto.nombre }}</h3>
-                        <div class="mb-1 text-muted">{{ producto.categoria_id }}</div>                                
-                        <div class="card-text mb-auto" v-html="producto.descripcion.substring(0, 50) + '...'"></div>
-                        <div class="card-text mb-auto" v-html="producto.precio + '€'"></div>
-                        <router-link :to="{ name: 'public-productos.details', params: { id: producto.id } }"
-                                     class="stretched-link">Ves al producto
-                        </router-link>
+        </div>           <div v-for="categoria in categorias" :key="categoria.id">
+            <h4 style="color: white; text-align: center;">{{ categoria.nombre }}</h4>
+            <div class="row">
+                <div v-for="producto in productosPorCategoria(categoria.id)" :key="producto.id" class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-header color-fondo-blanco">
+                            <h3>{{ producto.nombre }}</h3>
+                        </div>
+                        <div class="col-auto d-none d-lg-block d-md-block">
+                            <img :src=getImageUrl(producto) class="img-fluid"/>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title"></h4>
+                            <p class="card-text">{{ producto.descripcion }}</p>
+                            <p class="card-text">{{ producto.precio }}€</p>
+                            <button class="btn btn-secondary" @click="verProducto(producto.id)">Ve al producto</button>
+                        </div>
+                        <div class="card-footer color-fondo-blanco text-body-secondary">
+                            <button v-if="user?.name" @click="agregarAlCarrito(producto)" class="btn btn-primary">Añadir al carrito</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -31,6 +36,8 @@ import axios from 'axios';
 import {ref, onMounted} from 'vue'
 
 const productos = ref();
+const categorias = ref();
+
 
 function getImageUrl(producto) {
     let image
@@ -46,5 +53,21 @@ onMounted(() => {
     axios.get('/api/get-productos').then(({data}) => {
         productos.value = data;
     })
+    axios.get('/api/categoria-list').then(({ data }) => {
+            categorias.value = data.data
+        })
 })
+
+// Función para filtrar los productos por categoría
+const productosPorCategoria = (categoriaId) => {
+    return productos.value.data.filter(producto => producto.categoria.id === categoriaId);
+}
 </script>
+<style>
+.titulo-productos{
+    background-color:#252525;
+    width:250px;
+    height:150px;
+    border:none;
+}
+</style>

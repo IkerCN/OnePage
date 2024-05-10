@@ -14,7 +14,7 @@
                         </strong>
                         <h3 class="mb-0">{{ wikipedia.titulo }}</h3>
                         <div class="mb-1 text-muted">{{ wikipedia.created_at }}</div>
-                        <div class="card-text mb-auto" v-html="wikipedia.contenido.substring(0, 150) + '...'"></div>
+                        <div class="card-text mb-auto" v-html="wikipedia.contenido.substring(0, 90) + '...'"></div>
                         <router-link :to="{ name: 'public-wikipedias.details', params: { id: wikipedia.id } }"
                                      class="stretched-link">Continuar leyendo
                         </router-link>

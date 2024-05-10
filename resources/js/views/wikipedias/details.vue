@@ -5,12 +5,8 @@
             <h3 class="pb-4 mb-4 fst-italic pt-4 border-bottom">
                 {{ wikipedia?.titulo }}
             </h3>
-            <p class="blog-wikipedia-meta">1 de Enero de 2024 by <a href="#">{{ wikipedia?.user?.name}}</a></p>
-
+            <p class="blog-wikipedia-meta">{{ wikipedia?.created_at }} by <a href="#">{{ wikipedia?.user?.name}}</a></p>
             <article class="blog-wikipedia">
-              <!--  <div v-for="image in wikipedia?.media">
-                    <img :src="image.original_url" alt="image" class="img-fluid">
-                </div>-->
                 <div class="row">
                     <div class="w-auto" v-for="categoria in wikipedia?.categorias" :key="categoria.id">
                         <router-link :to="{ name: 'categoria-wiki.index', params: { id: categoria.id } }">{{ categoria.nombre }}</router-link>
@@ -18,21 +14,9 @@
                 </div>
                 <div class="mt-4" v-html="wikipedia?.contenido"></div>
             </article>
-
-            <!--<nav class="blog-pagination" aria-label="Pagination">
-                <a class="btn btn-outline-primary rounded-pill" href="#">Más antigua</a>
-                <a class="btn btn-outline-secondary rounded-pill disabled">Más nueva</a>
-            </nav>-->
-
             </div>
-
             <div class="col-md-4">
                 <div class="position-sticky" style="top: 2rem;">
-                    <!--<div class="p-4 mb-3 bg-light rounded">
-                    <h4 class="fst-italic">Sobre</h4>
-                    <p class="mb-0">Personaliza esta sección para dar más información sobre la publicación, escritores, contenido o algo completamente diferente. Depende totalmente de ti.</p>
-                    </div>-->
-
                     <div class="p-4 bg-light rounded">
                         <h4 class="fst-italic">Categorias</h4>
                         <ol v-if="categorias?.length > 0" class="list-unstyled">
@@ -41,24 +25,6 @@
                             </li>
                         </ol>
                     </div>
-
-                    <!-- <div class="p-4">
-                        <h4 class="fst-italic">Archives</h4>
-                        <ol class="list-unstyled mb-0">
-                            <li><a href="#">March 2021</a></li>
-                            <li><a href="#">February 2021</a></li>
-                            <li><a href="#">January 2021</a></li>
-                            <li><a href="#">December 2020</a></li>
-                            <li><a href="#">November 2020</a></li>
-                            <li><a href="#">October 2020</a></li>
-                            <li><a href="#">September 2020</a></li>
-                            <li><a href="#">August 2020</a></li>
-                            <li><a href="#">July 2020</a></li>
-                            <li><a href="#">June 2020</a></li>
-                            <li><a href="#">May 2020</a></li>
-                            <li><a href="#">April 2020</a></li>
-                        </ol>
-                    </div> -->
                 </div>
             </div>
         </div>

@@ -41,7 +41,7 @@
                             <div v-for="(post, index) in posts?.data" :key="post.id" :class="{ 'carousel-item': true, 'active': index === 0 }">
                                 <div class="card text-center">
                                     <div class="card-header color-fondo-blanco">
-                                        <h4>{{ post.title }}</h4>
+                                        <h5>{{ post.title }}</h5>
                                     </div>
                                     <div class="col-auto d-none d-lg-block d-md-block">
                                         <img :src="getImageUrl(post)" class="img-fluid"/>
@@ -53,7 +53,7 @@
                                     <router-link :to="{ name: 'public-posts.details', params: { id: post.id } }" class="mb-2 stretched-link">Continual leyendo
                                     </router-link>
                                     <div class="card-footer color-fondo-blanco text-body-secondary">
-                                        Fecha publicacion
+                                        {{ post.created_at }}
                                     </div>
                                 </div>
                             </div>
@@ -130,7 +130,7 @@
                                     <div v-for="(producto, innerIndex) in chunk" :key="innerIndex" class="col-lg-3 col-md-3 col-sm-6">
                                         <div class="card text-center">
                                             <div class="card-header color-fondo-blanco">
-                                                <h4>{{ producto.nombre }}</h4>
+                                                <h5>{{ producto.nombre }}</h5>
                                             </div>
                                             <div class="col-auto d-none d-lg-block d-md-block">
                                                 <img :src="getImageUrl(producto)" class="img-fluid"/>
@@ -167,7 +167,7 @@
 
 <script setup>
 import axios from 'axios';
-import {ref, onMounted, computed} from 'vue'
+import {ref, onMounted, computed, inject} from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore} from "vuex";
 
@@ -180,6 +180,7 @@ const productos = ref();
 const mangas = ref();
 const capitulos = ref();
 const categorias = ref();
+const swal = inject('$swal')
 
 const verCapitulo = (id) => {
     router.push({ name: 'public-capitulos.details', params: { id: id } });
@@ -222,12 +223,18 @@ const agregarAlCarrito = (producto) => {
     axios.post('/api/agregar-al-carrito', { producto })
         .then(response => {
             console.log(response.data);
-            // Aquí podrías mostrar un mensaje de éxito al usuario si lo deseas
+            swal({
+                icon: 'success',
+                title: 'Se ha añadido 1 producto al carrito'
+            })        
         })
         .catch(error => {
             console.error('Error al agregar al carrito:', error);
-            // Aquí podrías mostrar un mensaje de error al usuario si lo deseas
-        });
+            swal({
+                    icon: 'error',
+                    title: 'Error al añadir al carrito'
+                })        
+            });
 };
 const verProducto = (id) => {
     router.push({ name: 'public-productos.details', params: { id: id } });

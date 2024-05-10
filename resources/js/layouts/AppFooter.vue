@@ -13,12 +13,10 @@ const logoUrl = computed(() => {
 
     <div class="">
         <div class="surface-section px-4 md:px-6 lg:px-8">
-            <div class="py-6 flex flex-column sm:flex-row sm:align-items-center justify-content-between">
-                <div>
-                    
-                    <img src="/images/luffy.gif" alt="Image" height="40">
+            <div class="py-3 flex flex-column sm:flex-row sm:align-items-center justify-content-between">
+                <div> 
                     <div class="mt-2 line-height-3">
-                        © 2024 OnePage, All rights reserved
+                        <img src="/images/luffy.gif" alt="Image" height="40"> © 2024 OnePage, All rights reserved
                     </div>
                 </div>
                 <div class="mt-3 sm:mt-0">
