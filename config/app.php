@@ -84,12 +84,9 @@ return [
 
     'locale' => 'en',
     'locales' => [
-        'en' => 'EN',
-        'bn' => 'BN',
         'es' => 'ES',
-        'fr' => 'FR',
-        'pt-BR' => 'BR',
-        'zh-CN' => '中文',
+        'en' => 'EN',
+        'ca' => 'CA',
     ],
 
     /*

@@ -12,8 +12,8 @@
             </article>
 
             <nav class="blog-pagination py-3" aria-label="Pagination">
-            <router-link :to="{ name: 'public-mangas.details', params: { id: (manga?.id -1) } }" class="btn btn-outline-secondary rounded-pill mr-2">Tomo anterior</router-link>
-            <router-link :to="{ name: 'public-mangas.details', params: { id: (manga?.id +1) } }" class="btn btn-outline-primary rounded-pill">Siguiente tomo</router-link>
+            <router-link :to="{ name: 'public-mangas.details', params: { id: (manga?.id -1) } }" class="btn btn-outline-secondary rounded-pill mr-2">Manga anterior</router-link>
+            <router-link :to="{ name: 'public-mangas.details', params: { id: (manga?.id +1) } }" class="btn btn-outline-primary rounded-pill">Siguiente manga</router-link>
 
             </nav>
 

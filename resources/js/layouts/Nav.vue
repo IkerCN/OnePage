@@ -17,16 +17,16 @@
                         <router-link :to="{ name : 'public-posts.index'}" class="nav-link">Blog</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link :to="{ name : 'public-productos.index'}" class="nav-link">Tienda</router-link>
+                        <router-link :to="{ name : 'public-productos.index'}" class="nav-link">{{ $t('shop') }}</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link :to="{ name : 'public-wikipedias.index'}" class="nav-link">Wikipedia</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link :to="{ name : 'public-capitulos.index'}" class="nav-link">Capitulos</router-link>
+                        <router-link :to="{ name : 'public-capitulos.index'}" class="nav-link">{{ $t('chapters') }}</router-link>
                     </li>                        
                     <li class="nav-item">
-                        <router-link :to="{ name : 'public-mangas.index'}" class="nav-link">Tomos</router-link>
+                        <router-link :to="{ name : 'public-mangas.index'}" class="nav-link">Mangas</router-link>
                     </li>
                 </ul>
                 <ul class="navbar-nav mt-2 mt-lg-0 ms-auto">
