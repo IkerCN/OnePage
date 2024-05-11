@@ -21,6 +21,8 @@ OnePage web proyecto de Laravel 10 + vue3
 - ✅ Verificación de correo electrónico
 - ✅ Blog de Frontend
 - ✅ Ver contenido multimedia (mangas y capitulos) en Frontend
+- ✅ Permitir comprar productos en Frontend
+- ✅ Visualizar los pedidos realizados en Frontend
 - ✅ Boostrap 5
 
 
@@ -28,7 +30,7 @@ OnePage web proyecto de Laravel 10 + vue3
 ### Clonar Repositorio 
 
 ```bash
-git clone ....
+git clone https://github.com/IkerCN/OnePage.git
 ```
 
 ### Instalar vía Composer
@@ -56,6 +58,12 @@ php artisan migrate
 
 ```bash
 php artisan db:seed
+```
+
+### Habilitar imagenes
+
+```bash
+php artisan storage:link
 ```
 
 ### Instalar las dependencias de Node
