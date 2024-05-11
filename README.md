@@ -1,9 +1,6 @@
-#La parte del front end hay que hacer ccs propio, la del bCKEDened si puedes usar lo del david
-//
-
 # Características
 
-Ejemplo proyecto Laravel 10 + vue3 PAra DAW
+OnePage web proyecto de Laravel 10 + vue3 
 
 - ✅ Laravel 10
 - ✅ Vue 3
@@ -13,14 +10,17 @@ Ejemplo proyecto Laravel 10 + vue3 PAra DAW
 - ✅ Restablecimiento de contraseña
 - ✅ Login
 - ✅ Panel de administración
-- ✅ Gestión de perfiles
-- ✅ Gestión de usuarios
-- ✅ Gestión de roles
-- ✅ Gestión de permisos
+- ✅ Gestión del perfil administrador
+- ✅ Gestión de pedidos
+- ✅ Gestión de productos
+- ✅ Gestión de wikipedia
+- ✅ Gestión de capitulos
+- ✅ Gestión de mangas
+- ✅ Gestión de bolgs
 - ✅ Cambio de contraseña
 - ✅ Verificación de correo electrónico
-- ✅ Gestión de Posts
 - ✅ Blog de Frontend
+- ✅ Ver contenido multimedia (mangas y capitulos) en Frontend
 - ✅ Boostrap 5
 
 

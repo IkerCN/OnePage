@@ -1,26 +1,22 @@
 <template>
     <div class="container">
-        <h2 class="text-center my-4">Categoria mangas</h2>
+        <div class="d-flex justify-content-center">
+            <div class="card mt-4 titulo-manga">
+                <h2 class="text-center text-white mt-4">Tomos Categoria</h2>
+            </div>
+        </div>
         <div class="row mb-2">
             <div v-for="manga in mangas?.data" :key="manga.id" class="col-md-6">
                 <div
-                    class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    class="row g-0 bg-light border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                     <div class="col-auto d-none d-lg-block d-md-block">
                         <img :src="getImageUrl(manga)" class="img-fluid"/>
                     </div>
                     <div class="col p-4 d-flex flex-column position-static">
-                        <!--<div class="row">
-                            <div class="w-auto" v-for="categoria in manga?.categorias" :key="categoria.id">
-                                <router-link :to="{ name: 'categoria-mangas.index', params: { id: categoria.id } }">{{ categoria.nombre }}</router-link>        
-                            </div>
-                        </div>-->
-                        <div class="mb-1 ">{{ manga.categoria_id }}</div>
-
                         <h3 class="mb-0">{{ manga.titulo }}</h3>
-                        <div class="mb-1 ">Nov 12</div>
-                        <p class="card-text mb-auto">{{ manga.descripcion.substring(0, 90) + "..." }}</p>
-                        <router-link :to="{ name: 'public-mangas.details', params: { id: manga.id } }"
-                                     class="stretched-link">Continue reading
+                        <div class="mb-1 text-muted">{{ manga.created_at }}</div>
+                        <div class="card-text mb-auto" v-html="manga.descripcion.substring(0, 150) + '...'"></div>
+                        <router-link :to="{ name: 'public-mangas.details', params: { id: manga.id } }" class="stretched-link">Continual leyendo
                         </router-link>
                     </div>
                 </div>
@@ -28,7 +24,6 @@
         </div>
     </div>
 </template>
-
 <script setup>
 import axios from 'axios';
 import {ref, onMounted} from 'vue'
@@ -53,3 +48,11 @@ onMounted(() => {
     })
 })
 </script>
+<style>
+.titulo-manga{
+    background-color:#252525;
+    width:250px;
+    height:150px;
+    border:none;
+}
+</style>

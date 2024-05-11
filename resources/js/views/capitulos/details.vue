@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row g-5 mt-4">
             <div class="col-md-8">
-            <h3 class="pb-4 mb-4 fst-italic border-bottom">
+            <h3 class="pb-4 mb-4 fst-italic border-bottom text-white">
                 {{ capitulo?.titulo }}
             </h3>
             <article class="blog-capitulo">
@@ -15,8 +15,8 @@
                 </div>
             </article>
 
-            <nav class="blog-pagination" aria-label="Pagination">
-                <router-link :to="{ name: 'public-capitulos.details', params: { id: (capitulo?.id -1) } }" class="btn btn-outline-secondary rounded-pill">Capitulo anterior</router-link>
+            <nav class="blog-pagination py-3" aria-label="Pagination">
+                <router-link :to="{ name: 'public-capitulos.details', params: { id: (capitulo?.id -1) } }" class="btn btn-outline-secondary rounded-pill mr-2">Capitulo anterior</router-link>
                 <router-link :to="{ name: 'public-capitulos.details', params: { id: (capitulo?.id +1) } }" class="btn btn-outline-primary rounded-pill">Siguiente capitulo</router-link>
             </nav>
 
@@ -29,11 +29,12 @@
                         <h3 class="pb-4 mb-4 fst-italic border-bottom">
                             {{ capitulo?.titulo }}
                         </h3>
-                        <p class="blog-capitulo-meta">1 de Enero de 2024 by <a href="#">{{ capitulo?.user?.name}}</a></p>
-                        <div class="mt-4" v-html="capitulo?.descripcion"></div>                    
+                        <p class="blog-capitulo-meta">Categoria: <a href="#">{{ capitulo?.categorias?.nombre}}</a></p>
+                        <p class="blog-capitulo-meta">Numero: <a href="#">{{ capitulo?.numero}}</a></p>
+                        <div class="mt-4" v-html="capitulo?.descripcion"></div> 
                     </div>
 
-                    <div class="p-4">
+                    <div class="p-4 mb-3 bg-light rounded">
                         <h4 class="fst-italic">Categorias</h4>
                         <ol v-if="categorias?.length > 0" class="list-unstyled">
                             <li v-for="categoria in categorias" :key="categoria.id">

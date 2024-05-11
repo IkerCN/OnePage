@@ -1,34 +1,22 @@
 <template>
     <div class="container">
         <div class="row g-5 mt-4">
-            <div class="col-md-8">
-            <h3 class="pb-4 mb-4 fst-italic border-bottom">
-                {{ post?.title }}
-            </h3>
-            <p class="blog-post-meta">1 de Enero de 2024 by <a href="#">{{ post?.user?.name}}</a></p>
+            <div class="col-md-8 bg-light mb-2 rounded">
+                <h3 class="pb-4 mb-4 fst-italic border-bottom">
+                    {{ post?.title }}
+                </h3>
+                <article class="blog-post pb-3">
+                    <div v-for="image in post?.media">
+                        <img :src="image.original_url" alt="image" class="img-fluid">
+                    </div>
+                    <div class="mt-4" v-html="post?.content"></div>
+                    <p class="blog-post-meta">{{ post?.created_at }} by <a href="#">{{ post?.user?.name}}</a></p>
 
-            <article class="blog-post">
-                <div v-for="image in post?.media">
-                    <img :src="image.original_url" alt="image" class="img-fluid">
-                </div>
-                <div class="mt-4" v-html="post?.content"></div>
-            </article>
-
-            <nav class="blog-pagination" aria-label="Pagination">
-                <a class="btn btn-outline-primary rounded-pill" href="#">Más antigua</a>
-                <a class="btn btn-outline-secondary rounded-pill disabled">Más nueva</a>
-            </nav>
-
+                </article>
             </div>
-
             <div class="col-md-4">
                 <div class="position-sticky" style="top: 2rem;">
                     <div class="p-4 mb-3 bg-light rounded">
-                    <h4 class="fst-italic">Sobre</h4>
-                    <p class="mb-0">Personaliza esta sección para dar más información sobre la publicación, escritores, contenido o algo completamente diferente. Depende totalmente de ti.</p>
-                    </div>
-
-                    <div class="p-4">
                         <h4 class="fst-italic">Categorias</h4>
                         <ol v-if="categorias?.length > 0" class="list-unstyled">
                             <li v-for="categoria in categorias" :key="categoria.id">
@@ -36,23 +24,7 @@
                             </li>
                         </ol>
                     </div>
-                    <!-- <div class="p-4">
-                        <h4 class="fst-italic">Archives</h4>
-                        <ol class="list-unstyled mb-0">
-                            <li><a href="#">March 2021</a></li>
-                            <li><a href="#">February 2021</a></li>
-                            <li><a href="#">January 2021</a></li>
-                            <li><a href="#">December 2020</a></li>
-                            <li><a href="#">November 2020</a></li>
-                            <li><a href="#">October 2020</a></li>
-                            <li><a href="#">September 2020</a></li>
-                            <li><a href="#">August 2020</a></li>
-                            <li><a href="#">July 2020</a></li>
-                            <li><a href="#">June 2020</a></li>
-                            <li><a href="#">May 2020</a></li>
-                            <li><a href="#">April 2020</a></li>
-                        </ol>
-                    </div> -->
+
                 </div>
             </div>
         </div>

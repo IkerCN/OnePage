@@ -88,7 +88,7 @@
                             <div :id="'collapseManga' + categoria.id" class="accordion-collapse collapse" :class="{ 'show': index === 0 }" :aria-labelledby="'headingManga' + categoria.id" data-bs-parent="#accordionOne">
                                 <div class="accordion-body">
                                     <div v-for="manga1 in mangas?.data" :key="manga1.id">
-                                        <button v-if="manga1.categoria_id === categoria.id" class="accordion-item" @click="verManga(manga1.id)">{{ manga1.titulo }}</button>
+                                        <button v-if="manga1.categoria_id === categoria.id" class="accordion-item mb-2" @click="verManga(manga1.id)">{{ manga1.titulo }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +109,6 @@
                             <div :id="'collapseVideo' + categoria.id" class="accordion-collapse collapse" :class="{ 'show': index === 0 }" :aria-labelledby="'headingVideo' + categoria.id" data-bs-parent="#accordionTwo">
                                 <div class="accordion-body">
                                     <div v-for="capitulo in capitulos?.data" :key="capitulo.id">
-                                    
                                         <button v-if="capitulo.categoria_id === categoria.id" class="accordion-item mb-2" @click="verCapitulo(capitulo.id)">{{ capitulo.titulo }}</button>
                                     </div>
                                 </div>
@@ -222,19 +221,19 @@ const agregarAlCarrito = (producto) => {
     // Realizar una solicitud al servidor para agregar el producto al carrito
     axios.post('/api/agregar-al-carrito', { producto })
         .then(response => {
-            console.log(response.data);
-            swal({
-                icon: 'success',
-                title: 'Se ha añadido 1 producto al carrito'
-            })        
-        })
-        .catch(error => {
-            console.error('Error al agregar al carrito:', error);
-            swal({
-                    icon: 'error',
-                    title: 'Error al añadir al carrito'
-                })        
-            });
+        console.log(response.data);
+        swal({
+            icon: 'success',
+            title: 'Se ha añadido 1 producto al carrito'
+        })        
+    })
+    .catch(error => {
+        console.error('Error al agregar al carrito:', error);
+        swal({
+            icon: 'error',
+            title: 'Error al añadir al carrito'
+        })        
+    });
 };
 const verProducto = (id) => {
     router.push({ name: 'public-productos.details', params: { id: id } });

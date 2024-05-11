@@ -1,19 +1,27 @@
 <template>
     <div class="container">
-        <h2 class="text-center my-4">Categoria producto</h2>
-        <div class="row mb-2">
-            <div v-for="producto in productos?.data" :key="producto.id" class="col-md-6">
-                <div
-                    class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                    <div class="col p-4 d-flex flex-column position-static">
-
-                        <h3 class="mb-0">{{ producto.nombre }}</h3>
-                        <div class="mb-1 text-muted">{{ producto.categoria }}</div>                                
-                        <div class="card-text mb-auto" v-html="producto.descripcion.substring(0, 50) + '...'"></div>
-                        <div class="card-text mb-auto" v-html="producto.precio + '€'"></div>
-                        <router-link :to="{ name: 'public-productos.details', params: { id: producto.id } }"
-                                     class="stretched-link">Ves al producto
-                        </router-link>
+        <div class="d-flex justify-content-center">
+            <div class="card mt-4 titulo-productos">
+                <h2 class="text-center text-white mt-4">Productos Categoria</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div v-for="producto in productos?.data" :key="producto.id" class="col-lg-3 col-md-3 col-sm-6">
+                <div class="card text-center mb-2">
+                    <div class="card-header color-fondo-blanco">
+                        <h3>{{ producto.nombre }}</h3>
+                    </div>
+                    <div class="col-auto d-none d-lg-block d-md-block">
+                        <img :src=getImageUrl(producto) class="img-fluid"/>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"></h4>
+                        <p class="card-text" v-html="producto.descripcion.substring(0, 150) + '...'"></p>
+                        <p class="card-text">{{ producto.precio }}€</p>
+                        <button class="btn btn-secondary" @click="verProducto(producto.id)">Ve al producto</button>
+                    </div>
+                    <div class="card-footer color-fondo-blanco text-body-secondary">
+                        <button v-if="user?.name" @click="agregarAlCarrito(producto)" class="btn btn-primary">Añadir al carrito</button>
                     </div>
                 </div>
             </div>
@@ -22,16 +30,70 @@
 </template>
 
 <script setup>
-import axios from 'axios';
-import {ref, onMounted} from 'vue'
 import {useRoute} from "vue-router";
+import axios from 'axios';
+import {ref, onMounted, computed, inject} from 'vue'
+import { useRouter } from 'vue-router'
+import { useStore} from "vuex";
 
 const route = useRoute();
 const productos = ref();
+const categorias = ref();
+const user = computed(() => store.getters["auth/user"])
+const router = useRouter();
+const store = useStore();
+const swal = inject('$swal')
+
+
+function getImageUrl(producto) {
+    let image
+    if (producto.resized_image.length > 0) {
+        image = producto.resized_image
+    } else {
+        image = producto.original_image
+    }
+    return new URL(image, import.meta.url).href
+}
 
 onMounted(() => {
     axios.get('/api/get-categoria-productos/' + route.params.id).then(({data}) => {
         productos.value = data;
     })
 })
+
+const agregarAlCarrito = (producto) => {
+    // Realizar una solicitud al servidor para agregar el producto al carrito
+    axios.post('/api/agregar-al-carrito', { producto })
+        .then(response => {
+            console.log(response.data);
+            swal({
+                icon: 'success',
+                title: 'Se ha añadido 1 producto al carrito'
+            })        
+        })
+        .catch(error => {
+            console.error('Error al agregar al carrito:', error);
+            swal({
+                    icon: 'error',
+                    title: 'Error al añadir al carrito'
+                })        
+            });
+};
+const verProducto = (id) => {
+    router.push({ name: 'public-productos.details', params: { id: id } });
+};
+
+// Función para filtrar los productos por categoría
+const productosPorCategoria = (categoriaId) => {
+    return productos.value.data.filter(producto => producto.categoria.id === categoriaId);
+}
 </script>
+<style>
+.titulo-productos{
+    background-color:#252525;
+    width:250px;
+    height:150px;
+    border:none;
+}
+</style>
+
