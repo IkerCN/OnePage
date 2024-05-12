@@ -95,25 +95,6 @@
                                     <span class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">precio</span>
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left">
-                                    <div class="flex flex-row items-center justify-between cursor-pointer"
-                                         @click="updateOrdering('created_at')">
-                                        <div class="leading-4 font-medium text-gray-500 uppercase tracking-wider"
-                                             :class="{ 'font-bold text-blue-600': orderColumn === 'created_at' }">
-                                            Created at
-                                        </div>
-                                        <div class="select-none">
-                                <span :class="{
-                                  'text-blue-600': orderDirection === 'asc' && orderColumn === 'created_at',
-                                  'hidden': orderDirection !== '' && orderDirection !== 'asc' && orderColumn === 'created_at',
-                                }">&uarr;</span>
-                                            <span :class="{
-                                  'text-blue-600': orderDirection === 'desc' && orderColumn === 'created_at',
-                                  'hidden': orderDirection !== '' && orderDirection !== 'desc' && orderColumn === 'created_at',
-                                }">&darr;</span>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th class="px-6 py-3 bg-gray-50 text-left">
                                     Actions
                                 </th>
                             </tr>
@@ -137,9 +118,6 @@
                                 </td>
                                 <td class="px-6 py-4 text-sm">
                                     <div v-html="producto.precio + ' €'"></div>
-                                </td>
-                                <td class="px-6 py-4 text-sm">
-                                    {{ producto.created_at }}
                                 </td>
                                 <td class="px-6 py-4 text-sm">                
                                     <router-link v-if="can('producto-edit')"

@@ -127,9 +127,7 @@
                                     <img :src="manga.original_image" alt="image" height="70">
                                 </td>
                                 <td class="px-6 py-4 text-sm">
-                                    <div v-for="categoria in manga.categorias">
-                                        {{ categoria.nombre }}
-                                    </div>
+                                    {{ manga.categoria_id }}
                                 </td>
                                 <td class="px-6 py-4 text-sm">
                                     <div v-html="manga.descripcion.slice(0, 100) + '...'"></div>

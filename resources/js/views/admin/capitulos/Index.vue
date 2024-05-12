@@ -130,9 +130,7 @@
                                     </video>
                                 </td>
                                 <td class="px-6 py-4 text-sm">
-                                    <div v-for="categoria in capitulo.categorias">
-                                        {{ categoria.nombre }}
-                                    </div>
+                                    {{ capitulo.categoria_id }}
                                 </td>
                                 <td class="px-6 py-4 text-sm">
                                     <div v-html="capitulo.descripcion.slice(0, 100) + '...'"></div>
